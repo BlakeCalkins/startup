@@ -26,3 +26,16 @@ Example of the journal entry section of the website, showing the current logged 
 - View friends' homepages
 - Rank restaurants you've been to on your own homepage
 - See friend requests from others the moment they request you as a friend
+
+### Technologies
+This is how each of the following technologies will be used in my startup
+- **HTML** - The structure of the different pages of the user's journal, as well as allowing them to navigae between pages with different functionalities.
+- **CSS** - Displays an attractive UI of journal entries, homepages of the user and their friends, and of the interactive elements of the website.
+- **Javascript** - Allows adding and editing of journal entries and customization of homepage.
+- **Web Service** - Retrieves data for the following:
+  - login
+  - previously stored journal entries and homepage rankings
+  - restaurants found on Google Maps
+- **Authentication** - Create or login to your account in order to store your entries.
+- **WebSocket** - Receive a live friend request notification when someone wants to become friends on the website, and maybe chat with your friends in real time.
+- **Web Framework** - Uses React
