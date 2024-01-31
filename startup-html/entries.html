@@ -21,6 +21,40 @@
         <hr />
     </header>
     <main>
+        <section>
+            <h2>Add New Entry</h2>
+            <form action="entries.html" method="post">
+                <ul>
+                    <li>
+                        <label for="search">Search for Restaurant: </label> 
+                        <input type="search" id="search" name="varSearch" required/>
+                    </li>
+                    <li>
+                        <label for="text">Name of dish: </label>
+                        <input type="text" id="text" name="varText" placeholder="name here" required pattern=".*" />
+                    </li>
+                    <li>
+                        <label for="text">Blurb: </label>
+                        <input type="text" id="text" name="varText" size="35" placeholder="small descriptor of thoughts here." required pattern=".*" />
+                    </li>
+                    <li>
+                        <label for="select">Rating: </label>
+                        <select id="select" name="varSelect">
+                            <option>⭐</option>
+                            <option>⭐⭐</option>
+                            <option>⭐⭐⭐</option>
+                            <option>⭐⭐⭐⭐</option>
+                            <option selected>⭐⭐⭐⭐⭐</option>
+                        </select>
+                    </li>
+                    <li>
+                        <label for="textarea">Additional Thoughts: </label>
+                        <textarea id="textarea" name="varTextarea" required></textarea>
+                    </li>
+                    <button type="submit">Add Entry</button>
+                </ul>
+            </form>
+        </section>
         <h2>User's Journal Entries</h2>
         <p>12/Jan - Chom Burger</p>
         <ul>
