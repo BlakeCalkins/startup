@@ -39,3 +39,14 @@ This is how each of the following technologies will be used in my startup
 - **Authentication** - Create or login to your account in order to store your entries.
 - **WebSocket** - Receive a live friend request notification when someone wants to become friends on the website, and maybe chat with your friends in real time.
 - **Web Framework** - Uses React
+
+## HTML Deliverable
+For this deliverable I built out the structure of my application using HTML.
+
+- **HTML pages** - Four pages are here with various functionalities. 
+- **Links** - The Login button on the first page links to the User's homepage. I also have created a menu with links to all of the pages. 
+- **Text** - The main function of my application is writing and storing text as journal entries about food.
+- **3rd Party Services** - Searching for the restaurant page will pull up a list of known restaurants. 
+- **Images** - I don't plan on including images in my startup page, however I did update the favicon with my own favicon, a juicy burg.
+- **DB/Login** - Input box and submit button for login. Previous journal entries, friend lists and favorite restaurants are stored in the database. 
+- **WebSocket** - Friend requests pop up to the user in realtime, allowing instant befriending.
