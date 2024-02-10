@@ -24,6 +24,7 @@ header nav menu {
 menu .nav-item {
     padding: 0 0.3em;
 }  
-.nav-link {
-    color: aliceblue;
+.active {
+    background-color: rgba(32, 104, 76, 0.993);
+    border-radius: 10%;
 }
