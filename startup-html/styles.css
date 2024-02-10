@@ -61,6 +61,7 @@ label, input {
 footer {
     flex: 0 30px;
     background-color: #F46036;
+    margin-top: .5em;
 }
 
 footer a {
