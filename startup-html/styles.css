@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Honk&display=swap');
+* {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+h1, h2 {
+    font-family: 'Honk';
+}
+
+header {
+    flex: 0 50px;
+    background-color: aqua;
+}
+
+header nav menu {
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+}
