@@ -3,18 +3,27 @@
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 h1, h2 {
-    font-family: 'Honk';
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
 header {
-    flex: 0 50px;
-    background-color: aqua;
-}
+    flex: 0 2px;
+    background-color: rgba(41, 146, 106, 0.993);
+} 
+
 
 header nav menu {
-    list-style-type: none;
+    list-style: none;
+    text-align: start;
     display: flex;
     flex-direction: row;
     justify-content: start;
-    align-items: center;
+    align-items: center; 
+} 
+
+menu .nav-item {
+    padding: 0 0.3em;
+}  
+.nav-link {
+    color: aliceblue;
 }
