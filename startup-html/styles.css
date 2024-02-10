@@ -1,13 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
 * {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 h1, h2 {
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-family: Righteous;
 }
 body {
+    display: flex;
+    flex-direction: column;
+    min-width: 375px;
 }
 header {
-    background-color: rgba(206, 7, 73, 0.993);
+    background-color: #F46036;
 } 
 
 header p {
@@ -23,11 +27,11 @@ header nav menu {
     height: 70px;
 }
 .nav-link {
-    border: solid rgba(206, 7, 73, 0.993);
+    border: solid #F46036;
     border-radius: 10%;
 }
 .nav-link:hover {
-    border: solid rgb(170, 16, 67);
+    border: solid #ca4e2c;
 }
 
 menu {
@@ -39,19 +43,24 @@ menu .nav-item {
     padding: 0 0.3em;
 }  
 .active {
-    background-color: rgb(170, 16, 67);
+    background-color: #ca4e2c;
     border-radius: 10%;
 }
+
 main {
     display: flex;
     flex: 1 calc(100vh - 110px);
     flex-direction: column;
-    /* background-color: rgb(63, 145, 94); */
+}
+
+label, input {
+    padding: .2em;
+    margin: .3em;
 }
 
 footer {
     flex: 0 30px;
-    background-color: rgba(206, 7, 73, 0.993);
+    background-color: #F46036;
 }
 
 footer a {
