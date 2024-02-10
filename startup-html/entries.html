@@ -31,23 +31,23 @@
             <h2>Add New Entry</h2>
             <form action="entries.html" method="post">
                 <ul>
-                    <li>
+                    <li class="entry">
                         <label for="search">Search for Restaurant: </label> 
                         <input type="search" id="search" name="varSearch" required/>
                     </li>
-                    <li>
+                    <li class="entry">
                         <label for="date">Date: </label>
                         <input type="date" id="date" name="date" value="2024-31-01" min="2023-01-01">
                     </li>
-                    <li>
+                    <li class="entry">
                         <label for="text">Name of dish: </label>
                         <input type="text" id="text" name="varText" placeholder="name here" required pattern=".*" />
                     </li>
-                    <li>
+                    <li class="entry">
                         <label for="text">Blurb: </label>
                         <input type="text" id="text" name="varText" size="35" placeholder="small descriptor of thoughts here." required pattern=".*" />
                     </li>
-                    <li>
+                    <li class="entry">
                         <label for="select">Rating: </label>
                         <select id="select" name="varSelect">
                             <option>⭐</option>
@@ -57,7 +57,7 @@
                             <option selected>⭐⭐⭐⭐⭐</option>
                         </select>
                     </li>
-                    <li>
+                    <li class="entry">
                         <label for="textarea">Additional Thoughts: </label>
                         <textarea id="textarea" name="varTextarea" required></textarea>
                     </li>
@@ -68,16 +68,16 @@
         <h2>User's Journal Entries</h2>
         <p>12/Jan - Chom Burger</p>
         <ul>
-            <li>OKC Burger - ⭐⭐⭐⭐</li>
+            <li class="entry">OKC Burger - ⭐⭐⭐⭐</li>
             <p>I liked this burger, it had a good flavor with the grilled onions. It was a little small for a double burger.</p>
-            <li>Sweet Potato Fries - ⭐⭐⭐⭐⭐</li>
+            <li class="entry">Sweet Potato Fries - ⭐⭐⭐⭐⭐</li>
             <p>Fantastic fries as always, they are crispy and a little sweet. </p>
         </ul>
         <p>05/Jan - Rockwell Ice Cream</p>
         <ul>
-            <li>Mint Chocolate Chip - ⭐⭐⭐⭐</li>
+            <li class="entry">Mint Chocolate Chip - ⭐⭐⭐⭐</li>
             <p>Very minty, a mint leaf taste. Very unique for a mint flavor, the choc-chips were good.</p>
-            <li>Brown Butter Pecan - ⭐⭐⭐⭐</li>
+            <li class="entry">Brown Butter Pecan - ⭐⭐⭐⭐</li>
             <p>Yummy pecan ice cream, really liked the nuts and the flavors in the ice cream.</p>
         </ul>
     </main>
