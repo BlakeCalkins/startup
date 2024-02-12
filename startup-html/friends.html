@@ -41,8 +41,17 @@
         <section>
             <h2>Unanswered Friend Requests</h2>
             <ul>
-                <li class="entry">Kay S.</li> <button type="button" class="btn btn-outline-success">Accept</button> <button type="button" class="btn btn-outline-danger">Decline</button>
-                <li class="entry">Stefano K.</li> <button type="button" class="btn btn-outline-success">Accept</button> <button type="button" class="btn btn-outline-danger">Decline</button>
+                <input type="checkbox" class="checkbox" id="dismissCheckbox">
+                <div class="box">
+                    <li class="entry">Kay S.</li> 
+                    <button type="button" onclick="dismissRequest()" class="btn btn-outline-success">Accept</button> 
+                    <button type="button" onclick="dismissRequest()" class="btn btn-outline-danger">Decline</button>
+                </div>
+                <div class="box">
+                    <li class="entry">Stefano K.</li> 
+                    <button type="button" onclick="dismissRequest()" class="btn btn-outline-success">Accept</button> 
+                    <button type="button" onclick="dismissRequest()" class="btn btn-outline-danger">Decline</button>
+                </div>
             </ul>
         </section>
         <section>
@@ -55,5 +64,10 @@
         <span>Blake Calkins</span>
         <a class="nav-link text-light" href="https://github.com/BlakeCalkins/startup.git">Github</a>
     </footer>
+    <script>
+        function dismissRequest() {
+            document.getElementById('dismissCheckbox').checked = true;
+        }
+    </script>
 </body>
 </html>
