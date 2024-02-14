@@ -50,3 +50,13 @@ For this deliverable I built out the structure of my application using HTML.
 - **Images** - I don't plan on including images in my startup page, however I did update the favicon with my own favicon, a juicy burg.
 - **DB/Login** - Input box and submit button for login. Previous journal entries, friend lists and favorite restaurants are stored in the database. 
 - **WebSocket** - Friend requests pop up to the user in realtime, allowing instant befriending.
+
+## CSS Deliverable
+For this deliverable, I styled my content with fonts, a snappy header, buttons from bootstrap, and other elements.
+
+- **Header, Footer, and main content body**
+- **Navigation elements** - Starting from bootstrap, I put nav elements in the header for the four pages, adding a color change on hover.
+- **Responsive to window sizing** - Using some flex, I included responsive design so that the app looks good at any window size.
+- **Application elements** - I added bootstrap button styling as well as a pop-up box style on friend notifications. 
+- **Application text content** - Three fonts for different parts of the app (header, normal text, and handwritten style for entries).
+- **Application images** - Added a paper-looking element for journal entries and I responsively sized the image on the login screen. 
