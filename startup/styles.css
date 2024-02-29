@@ -147,16 +147,9 @@ footer a {
     text-decoration: underline !important;
 }
 
-@media (max-width: 992px) {
-    header {
-        /* display: none; */
-    }
-}
+
 
 @media (max-height: 600px) {
-    header {
-      /* display: none; */
-    }
     footer {
       display: none;
     }
