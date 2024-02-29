@@ -30,7 +30,7 @@
     <main>
         <section>
             <h2>Add New Entry</h2>
-            <form action="entries.html" method="post">
+            <form action="javascript:makeEntryObj()">
                 <ul>
                     <li class="entry">
                         <label for="search">Search for Restaurant: </label> 
@@ -69,7 +69,7 @@
                         <label for="textarea">Additional Thoughts: </label>
                         <textarea class="inputBox" id="thoughts" name="varTextarea" required></textarea>
                     </li>
-                    <button type="submit" class="btn btn-outline-success" onclick="makeEntryObj()">Add Entry</button>
+                    <button type="submit" class="btn btn-outline-success">Add Entry</button>
                 </ul>
             </form>
         </section>
