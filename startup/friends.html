@@ -30,18 +30,18 @@
         <section>
             <h2>Add Friends</h2>
             <label for="search">Search Users: </label> 
-            <input class="inputBox" type="search" id="search" name="varSearch" required/>
-            <button type="button" class="btn btn-outline-success">Add Friend</button> 
+            <input class="inputBox" type="search" id="friendSearch" name="varSearch" required/>
+            <button type="button" class="btn btn-outline-success" onclick="addFriendFromSearch()">Add Friend</button> 
         </section>
         <section>
             <h2>Friend List</h2>
-            <ul>
+            <ul id="friendList">
                 <li class="entry">Laura</li> <button type="button" class="btn btn-outline-primary">View Home Page</button>  <button type="button" class="btn btn-outline-danger">Remove Friend</button> 
                 <li class="entry">Joseph</li> <button type="button" class="btn btn-outline-primary">View Home Page</button> <button type="button" class="btn btn-outline-danger">Remove Friend</button>
                 <li class="entry">Julie</li> <button type="button"  class="btn btn-outline-primary">View Home Page</button> <button type="button" class="btn btn-outline-danger">Remove Friend</button>
                 <li class="entry">Edwin</li> <button type="button"  class="btn btn-outline-primary">View Home Page</button> <button type="button" class="btn btn-outline-danger">Remove Friend</button>
-                <br>
-                <button type="button" class="btn btn-outline-secondary">See More</button>
+                <!-- <br>
+                <button type="button" class="btn btn-outline-secondary">See More</button> -->
             </ul>
         </section>
         <section>
@@ -71,5 +71,6 @@
             document.getElementById(cbName).checked = true;
         }
     </script>
+    <script src="friends.js"></script>
 </body>
 </html>
