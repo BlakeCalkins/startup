@@ -33,7 +33,7 @@
                 <ul>
                     <li class="entry">
                         <label for="search">Search for Restaurant: </label> 
-                        <input class="inputBox" type="search" id="search" name="varSearch" required/>
+                        <input class="inputBox" type="search" id="restaurant" name="varSearch" required/>
                     </li>
                     <li class="entry">
                         <label for="date">Date: </label>
@@ -41,16 +41,16 @@
                     </li>
                     <li class="entry">
                         <label for="text">Name of dish: </label>
-                        <input class="inputBox" type="text" id="text" name="varText" placeholder="name here" required pattern=".*" />
+                        <input class="inputBox" type="text" id="dishName" name="varText" placeholder="name here" required pattern=".*" />
                     </li>
                     <li class="entry">
                         <label for="text">Blurb: </label>
-                        <input class="inputBox" type="text" id="text" name="varText" size="35" placeholder="small descriptor of thoughts here." required pattern=".*" />
+                        <input class="inputBox" type="text" id="blurb" name="varText" size="35" placeholder="small descriptor of thoughts here." required pattern=".*" />
                     </li>
                     <li class="entry">
                         <label for="select">Rating: </label>
-                        <select id="select" name="varSelect">
-                            <option>⭐</option>
+                        <select id="starRating" name="varSelect">
+                            <option><img src="star.png" alt="Smiley Emoji" width="20" height="20"></option>                            
                             <option>⭐⭐</option>
                             <option>⭐⭐⭐</option>
                             <option>⭐⭐⭐⭐</option>
@@ -59,7 +59,7 @@
                     </li>
                     <li class="entry">
                         <label for="textarea">Additional Thoughts: </label>
-                        <textarea class="inputBox" id="textarea" name="varTextarea" required></textarea>
+                        <textarea class="inputBox" id="thoughts" name="varTextarea" required></textarea>
                     </li>
                     <button type="submit" class="btn btn-outline-success">Add Entry</button>
                 </ul>

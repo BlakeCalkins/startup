@@ -1,0 +1,6 @@
+function makeEntryObj() {
+    
+    const entryObj = {
+        
+    }
+}
