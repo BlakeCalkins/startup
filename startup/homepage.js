@@ -4,9 +4,6 @@ function getPlayerName() {
 
 function loadFavorites () {
     let inputtedFavs = localStorage.getItem('inputtedFavs');
-    let lol = inputtedFavs == true;
-    console.log(inputtedFavs);
-    console.log(lol);
     if (inputtedFavs) {
         let entry1 = document.getElementById('entry1');
         let entry2 = document.getElementById('entry2');

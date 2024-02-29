@@ -96,6 +96,7 @@ main {
 
 .entry {
     list-style: none;
+    display: flex;
 }
 
 .btn {
