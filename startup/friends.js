@@ -11,10 +11,11 @@ function retrieveSet() {
 function storeFriend(friendSet, friend) {
     let friendArray = Array.from(friendSet);
     localStorage.setItem('friendKey', JSON.stringify(friendArray));
-    num = localStorage.getItem("friendNumber") ?? 1;
+    num = localStorage.getItem("friendNumber") ?? 0;
+    num++;
     currFriend = 'friend' + num;
     localStorage.setItem(currFriend, friend);
-    localStorage.setItem("friendNumber", ++num);
+    localStorage.setItem("friendNumber", num);
 }
 
 function addFriend(friend) {
