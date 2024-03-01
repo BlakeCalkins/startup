@@ -1,3 +1,41 @@
+function checkForMultipleEntries(entryDateString, entryNum) {
+    if (localStorage.getItem(entryDateString)) {
+        // let tempNum = entryNum;
+        while (localStorage.getItem(entryDateString)) {
+            entryDateString = stripRepeat(entryDateString);
+            entryNum++;
+            entryDateString = entryDateString + " (" + entryNum + ")";
+        }
+        // if (entryDateString[entryDateString.length - 1] == ')') {
+        //     entryNum = entryDateString[entryDateString.length - 2]
+        //     entryDateString = entryDateString.substring(0, entryDateString.length - 4)
+        // }
+        // entryNum++;
+        // entryDateString = entryDateString + " (" + entryNum + ")";
+        // checkForMultipleEntries(entryDateString, entryNum)
+    }
+    return entryDateString;
+}
+
+function stripRepeat(entryDateString) {
+    if (entryDateString[entryDateString.length - 1] == ')') {
+        // entryNum = entryDateString[entryDateString.length - 2]
+        entryDateString = entryDateString.substring(0, entryDateString.length - 4)
+    }
+    return entryDateString;
+}
+
+function getMonthandDay(date) {
+    let dateArray = date.split('-');
+    let month = dateArray[1]
+    let day = dateArray[2];
+    return [month, day];
+}
+
+function renderEntry(entryObj) {
+    
+}
+
 function makeEntryObj() {
     // event.preventDefault();
     let restaurant = document.getElementById('restaurant').value;
@@ -35,6 +73,11 @@ function makeEntryObj() {
         'rating': selectedRating,
         'thoughts': thoughts,
     };
+    renderEntry(entryObj);
+    const [month, day] = getMonthandDay(date);
+    entryDateString = 'entry' + month + day;
+    entryDateString = checkForMultipleEntries(entryDateString, 1);
     const entryObjString = JSON.stringify(entryObj);
-    localStorage.setItem("")
+    localStorage.setItem(entryDateString, entryObjString);
+
 }
