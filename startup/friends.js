@@ -8,19 +8,30 @@ function retrieveSet() {
     return retrievedSet;
 }
 
+function storeFriend(friendSet, friend) {
+    let friendArray = Array.from(friendSet);
+    localStorage.setItem('friendKey', JSON.stringify(friendArray));
+    num = localStorage.getItem("friendNumber") ?? 1;
+    currFriend = 'friend' + num;
+    localStorage.setItem(currFriend, friend);
+    localStorage.setItem("friendNumber", ++num);
+}
+
 function addFriend(friend) {
     let friendSet = retrieveSet();
     if (friendSet) {
-        friendSet.add(friend);
+        if (friendSet.has(friend)) {
+            alert("You are already friends with " + friend)
+            return;
+        } else {
+            friendSet.add(friend);
+            storeFriend(friendSet, friend);
+        }
     } else {
         let friendSet = new Set([friend]);
+        storeFriend(friendSet, friend);
     }
-    let friendArray = Array.from(friendSet);
-    localStorage.setItem('friendKey', JSON.stringify(friendArray));
-    // num = localStorage.getItem("friendNumber") ?? 1;
-    // currFriend = 'friend' + num;
-    // localStorage.setItem(currFriend, friend);
-    // localStorage.setItem("friendNumber", ++num);
+    
     renderFriend(friend);
 }
 

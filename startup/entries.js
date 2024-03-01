@@ -1,25 +1,16 @@
 function checkForMultipleEntries(entryDateString, entryNum) {
     if (localStorage.getItem(entryDateString)) {
-        // let tempNum = entryNum;
         while (localStorage.getItem(entryDateString)) {
             entryDateString = stripRepeat(entryDateString);
             entryNum++;
             entryDateString = entryDateString + " (" + entryNum + ")";
         }
-        // if (entryDateString[entryDateString.length - 1] == ')') {
-        //     entryNum = entryDateString[entryDateString.length - 2]
-        //     entryDateString = entryDateString.substring(0, entryDateString.length - 4)
-        // }
-        // entryNum++;
-        // entryDateString = entryDateString + " (" + entryNum + ")";
-        // checkForMultipleEntries(entryDateString, entryNum)
     }
     return entryDateString;
 }
 
 function stripRepeat(entryDateString) {
     if (entryDateString[entryDateString.length - 1] == ')') {
-        // entryNum = entryDateString[entryDateString.length - 2]
         entryDateString = entryDateString.substring(0, entryDateString.length - 4)
     }
     return entryDateString;
@@ -37,23 +28,11 @@ function renderEntry(entryObj) {
 }
 
 function makeEntryObj() {
-    // event.preventDefault();
     let restaurant = document.getElementById('restaurant').value;
     let date = document.getElementById('date').value;
     let dish = document.getElementById('dish').value;
     let blurb = document.getElementById('blurb').value;
-    // let rating = document.querySelector('rating');
     let thoughts = document.getElementById('thoughts').value;
-
-
-    // if (restaurant.trim() === '' || 
-    // date.trim() === '' || 
-    // blurb.trim() === '' || 
-    // dish.trim() === '' ||
-    // thoughts.trim() === '') {
-    //     alert('Please enter a value before submitting.');
-    //     return false;
-    //   }
 
     var ratingButtons = document.querySelectorAll('input[name="rating"]');
     var selectedRating = 0;
