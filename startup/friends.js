@@ -74,6 +74,8 @@ function renderFriend(friend) {
     existingList.appendChild(newFriend);
     existingList.appendChild(newHomepageButton);
     existingList.appendChild(newRemoveButton);
+    var temp = document.getElementById('temp');
+    temp.style.display = 'none';
 }
 
 function removeFriend(friend) {

@@ -99,6 +99,10 @@ main {
     display: flex;
 }
 
+.temp {
+    margin-left: 2em;
+}
+
 .btn {
     margin-top: .2em;
 }
