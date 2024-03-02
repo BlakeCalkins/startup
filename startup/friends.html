@@ -51,13 +51,13 @@
                 <input type="checkbox" class="checkbox" id="dismissCheckbox">
                 <div class="box">
                     <li class="entry">Kay S.</li> 
-                    <button type="button" onclick="dismissRequest('dismissCheckbox')" class="btn btn-outline-success">Accept</button> 
+                    <button type="button" onclick="acceptRequest('dismissCheckbox','Kay S.')" class="btn btn-outline-success">Accept</button> 
                     <button type="button" onclick="dismissRequest('dismissCheckbox')" class="btn btn-outline-danger">Decline</button>
                 </div>
                 <input type="checkbox" class="checkbox" id="dismissCheckbox2">
                 <div class="box">
                     <li class="entry">Stefano K.</li> 
-                    <button type="button" onclick="dismissRequest('dismissCheckbox2')" class="btn btn-outline-success">Accept</button> 
+                    <button type="button" onclick="acceptRequest('dismissCheckbox','Stefano K.')" class="btn btn-outline-success">Accept</button> 
                     <button type="button" onclick="dismissRequest('dismissCheckbox2')" class="btn btn-outline-danger">Decline</button>
                 </div>
             </ul>
@@ -68,6 +68,10 @@
         <a class="nav-link text-light" href="https://github.com/BlakeCalkins/startup.git">Github</a>
     </footer>
     <script>
+        function acceptRequest(cbName, friend) {
+            dismissRequest(cbName);
+            addFriend(friend)
+        }
         function dismissRequest(cbName) {
             document.getElementById(cbName).checked = true;
         }

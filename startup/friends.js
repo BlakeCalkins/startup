@@ -35,8 +35,9 @@ function addFriend(friend) {
         let friendSet = new Set([friend]);
         storeFriend(friendSet, friend);
     }
-    
-    renderFriend(friend);
+    if (document.getElementById("friendSearch")) {
+        renderFriend(friend);
+    }
 }
 
 function addFriendFromSearch() {
@@ -88,32 +89,37 @@ function renderExistingFriends() {
 }
 
 function removeFriend(friend) {
-    // Find friend in localStorage using the value instead of the key,
-    // then remove that friend
-    for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        const itemValue = localStorage.getItem(key);
+    const userConfirmed = confirm("Remove " + friend + " as a friend?");
+    if (userConfirmed) {
+        // Find friend in localStorage using the value instead of the key,
+        // then remove that friend
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            const itemValue = localStorage.getItem(key);
 
-        if (itemValue === friend) {
-            localStorage.removeItem(key);
+            if (itemValue === friend) {
+                localStorage.removeItem(key);
+            }
         }
-    }
-    // Remove friend from the set of friends stored in localStorage
-    let friendSet = retrieveSet();
-    friendSet.delete(friend);
-    storeSet(friendSet);
-    // Decrement the friend count in localStorage
-    num = localStorage.getItem("friendNumber");
-    num--;
-    localStorage.setItem("friendNumber", num);
+        // Remove friend from the set of friends stored in localStorage
+        let friendSet = retrieveSet();
+        friendSet.delete(friend);
+        storeSet(friendSet);
+        // Decrement the friend count in localStorage
+        num = localStorage.getItem("friendNumber");
+        num--;
+        localStorage.setItem("friendNumber", num);
 
-    // Remove the HTML elements
-    const liFriendDelete = document.getElementById("li" + friend);
-    const friendHome = document.getElementById(friend + "Home");
-    const friendRemove = document.getElementById(friend + "Remove");
-    liFriendDelete.remove();
-    friendHome.remove();
-    friendRemove.remove();
+        // Remove the HTML elements
+        const liFriendDelete = document.getElementById("li" + friend);
+        const friendHome = document.getElementById(friend + "Home");
+        const friendRemove = document.getElementById(friend + "Remove");
+        liFriendDelete.remove();
+        friendHome.remove();
+        friendRemove.remove();
+    }
 }
 
-renderExistingFriends();
+if (document.getElementById("friendSearch")) {
+    renderExistingFriends();
+}
