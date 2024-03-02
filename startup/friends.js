@@ -78,6 +78,15 @@ function renderFriend(friend) {
     temp.style.display = 'none';
 }
 
+function renderExistingFriends() {
+    friendSet = retrieveSet();
+    if (friendSet) {
+        friendSet.forEach(element => {
+            renderFriend(element);
+        });
+    }
+}
+
 function removeFriend(friend) {
     // Find friend in localStorage using the value instead of the key,
     // then remove that friend
@@ -106,3 +115,5 @@ function removeFriend(friend) {
     friendHome.remove();
     friendRemove.remove();
 }
+
+renderExistingFriends();
