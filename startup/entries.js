@@ -72,6 +72,32 @@ function renderExistingEntries() {
     }
 }
 
+function storeArray(toBeStored) {
+    arrayString = JSON.stringify(toBeStored);
+    localStorage.setItem("entryKeys", arrayString);
+}
+
+function retrieveArray() {
+    let storedArray = localStorage.getItem("entryKeys") ?? false;
+    if (!storedArray) {
+        return false;
+    }
+    parsedArray = JSON.parse(storedArray);
+    return parsedArray;
+}
+
+function storeEntryInArray(entryKey) {
+    let storedArray = retrieveArray();
+    if (!storedArray) {
+        let newArray = [];
+        newArray.push(entryKey);
+        storeArray(newArray);
+        return;
+    }
+    storedArray.push(entryKey);
+    storeArray(storedArray);
+}
+
 function makeEntryObj() {
     let restaurant = document.getElementById('restaurant').value;
     let date = document.getElementById('date').value;
@@ -104,7 +130,7 @@ function makeEntryObj() {
     entryDateString = checkForMultipleEntries(entryDateString, 1);
     const entryObjString = JSON.stringify(entryObj);
     localStorage.setItem(entryDateString, entryObjString);
-
+    storeEntryInArray(entryDateString);
 }
 
 renderExistingEntries();
