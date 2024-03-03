@@ -54,6 +54,8 @@ function renderEntry(entryObj) {
     newDiv.appendChild(newUl);
     newUl.appendChild(newLi);
     newUl.appendChild(thoughtP);
+    var temp = document.getElementById('temp');
+    temp.style.display = 'none';
 
 }
 
@@ -105,4 +107,4 @@ function makeEntryObj() {
 
 }
 
-// renderExistingEntries();
+renderExistingEntries();
