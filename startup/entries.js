@@ -57,6 +57,19 @@ function renderEntry(entryObj) {
 
 }
 
+function renderExistingEntries() {
+    const regex = /entry([0-1][0-9][0-3][0-9])( \(.*\))*/;
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (regex.test(key)) {
+            const value = JSON.parse(localStorage.getItem(key));
+            console.log(value);
+            // console.log(`Rendering entry for key: ${key}`);
+            renderEntry(value);
+        }
+    }
+}
+
 function makeEntryObj() {
     let restaurant = document.getElementById('restaurant').value;
     let date = document.getElementById('date').value;
@@ -91,3 +104,5 @@ function makeEntryObj() {
     localStorage.setItem(entryDateString, entryObjString);
 
 }
+
+// renderExistingEntries();
