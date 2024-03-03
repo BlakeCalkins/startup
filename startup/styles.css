@@ -64,7 +64,8 @@ main {
     font-family: Dancing Script;
     font-size: x-large;
     font-weight: 600;
-    color: rgb(58, 120, 255);
+    /* color: rgb(58, 120, 255); */
+    color: rgb(68, 69, 70);
 }
 
 .ruled {

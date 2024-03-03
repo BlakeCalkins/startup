@@ -23,8 +23,38 @@ function getMonthandDay(date) {
     return [month, day];
 }
 
+function getMonthName(date) {
+    const [month, day] = getMonthandDay(date);
+    let monthArray = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    let monthStr = monthArray[month - 1];
+    return [monthStr, day];
+}
+
 function renderEntry(entryObj) {
-    
+    let newDiv = document.createElement('div');
+    newDiv.className = 'ruled';
+
+    let dateP = document.createElement('p');
+    const [monthStr, day] = getMonthName(entryObj.date);
+    dateP.textContent = day + '/' + monthStr + " - " + entryObj.restaurant;
+
+    let newUl = document.createElement('ul');
+
+    let newLi = document.createElement('li');
+    newLi.className = 'entry paper';
+    newLi.textContent = entryObj.dish + " - " + entryObj.rating + " Star(s)"
+
+    let thoughtP = document.createElement('p');
+    thoughtP.className = 'paper';
+    thoughtP.textContent = entryObj.thoughts;
+
+    let entriesSection = document.getElementById('entries');
+    entriesSection.appendChild(newDiv);
+    newDiv.appendChild(dateP);
+    newDiv.appendChild(newUl);
+    newUl.appendChild(newLi);
+    newUl.appendChild(thoughtP);
+
 }
 
 function makeEntryObj() {
@@ -52,6 +82,7 @@ function makeEntryObj() {
         'rating': selectedRating,
         'thoughts': thoughts,
     };
+    console.log(entryObj);
     renderEntry(entryObj);
     const [month, day] = getMonthandDay(date);
     entryDateString = 'entry' + month + day;
