@@ -49,6 +49,11 @@ function addFriendFromSearch() {
     addFriend(friendName);
 }
 
+function viewHomepage(person) {
+    localStorage.setItem("recentFriendViewer", person)
+    window.location.href = "placeholder.html";
+}
+
 function renderFriend(friend) {
     let newFriend = document.createElement('li');
     newFriend.textContent = friend;
@@ -60,6 +65,9 @@ function renderFriend(friend) {
     newHomepageButton.textContent = "View Home Page";
     newHomepageButton.className = "btn btn-outline-primary";
     newHomepageButton.id = friend + "Home";
+    newHomepageButton.onclick = function() {
+        viewHomepage(friend);
+    }
     
     let newRemoveButton = document.createElement('button');
     newRemoveButton.type = 'button';
