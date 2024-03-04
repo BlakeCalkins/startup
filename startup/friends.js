@@ -70,12 +70,13 @@ function renderFriend(friend) {
         removeFriend(friend);
     }
 
-
     let existingList = document.getElementById('friendList');
     existingList.appendChild(newFriend);
     existingList.appendChild(newHomepageButton);
-    existingList.appendChild(newRemoveButton);
-    var temp = document.getElementById('temp');
+    if (document.getElementById('friendSearch')) {
+        existingList.appendChild(newRemoveButton);
+    }
+    var temp = document.getElementById('tempFriend');
     temp.style.display = 'none';
 }
 
@@ -120,6 +121,4 @@ function removeFriend(friend) {
     }
 }
 
-if (document.getElementById("friendSearch")) {
-    renderExistingFriends();
-}
+renderExistingFriends();
