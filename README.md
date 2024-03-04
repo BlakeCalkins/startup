@@ -59,4 +59,12 @@ For this deliverable, I styled my content with fonts, a snappy header, buttons f
 - **Responsive to window sizing** - Using some flex, I included responsive design so that the app looks good at any window size.
 - **Application elements** - I added bootstrap button styling as well as a pop-up box style on friend notifications. 
 - **Application text content** - Three fonts for different parts of the app (header, normal text, and handwritten style for entries).
-- **Application images** - Added a paper-looking element for journal entries and I responsively sized the image on the login screen. 
+- **Application images** - Added a paper-looking element for journal entries and I responsively sized the image on the login screen.
+
+## JavaScript Deliverable
+For this deliverable, I implemented the logic for my webpage in order for it to have basic functionality. 
+
+- **Login** - The user's username and password are stored in localStorage and then their name is displayed on the homepage.html page.
+- **Database** - Previous entries and a friendlist is displayed based off of the user's input. Currently this is stored and retrieved from local storage, but will be in database later. Viewing a friend's homepage also displays their page. This is currently a placeholder as well.
+- **WebSocket** - Friend requests are displayed on the homepage as soon as the request is made from the other person. Currently this is a placeholder card that will still add the friend to the friendlist if accepted.
+- **Application logic** - Entries and favorites can be entered by the user and will update their homepage. 
