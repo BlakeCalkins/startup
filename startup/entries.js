@@ -72,8 +72,43 @@ function renderExistingEntries() {
     }
 }
 
+function renderAbbr(entry) {
+    let newDiv = document.createElement('div');
+    newDiv.className = 'ruled';
+
+    let newLi = document.createElement('li');
+    newLi.className = 'entry paper';
+    newLi.textContent = entry.restaurant + ' - ' + entry.dish;
+
+    let newP = document.createElement('p');
+    newP.className = 'paper';
+    newP.textContent = entry.rating + " Stars - " + entry.blurb;
+
+    let entriesUl = document.getElementById('entries');
+    entriesUl.appendChild(newDiv);
+    newDiv.appendChild(newLi);
+    newDiv.appendChild(newP);
+}
+
+function renderAbbreviatedEntries() {
+    let entryArray = retrieveArray();
+    if (!entryArray) {
+        return;
+    }
+    let entryKey2 = entryArray[entryArray.length - 2] ?? false;
+    let entryKey1 = entryArray[entryArray.length - 1];
+    let recentEntry1 = JSON.parse(localStorage.getItem(entryKey1));
+    renderAbbr(recentEntry1);
+    if (entryKey2) {
+        let recentEntry2 = JSON.parse(localStorage.getItem(entryKey2));
+        renderAbbr(recentEntry2);
+    }
+    var temp = document.getElementById('tempEntry');
+    temp.style.display = 'none';
+}
+
 function storeArray(toBeStored) {
-    arrayString = JSON.stringify(toBeStored);
+    let arrayString = JSON.stringify(toBeStored);
     localStorage.setItem("entryKeys", arrayString);
 }
 
@@ -82,7 +117,7 @@ function retrieveArray() {
     if (!storedArray) {
         return false;
     }
-    parsedArray = JSON.parse(storedArray);
+    let parsedArray = JSON.parse(storedArray);
     return parsedArray;
 }
 
@@ -133,4 +168,8 @@ function makeEntryObj() {
     storeEntryInArray(entryDateString);
 }
 
-renderExistingEntries();
+if (document.getElementById("restaurant")) {
+    renderExistingEntries();
+} else {
+    renderAbbreviatedEntries();
+}
