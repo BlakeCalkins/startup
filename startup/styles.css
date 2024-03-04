@@ -156,9 +156,6 @@ footer a {
 
 
 @media (max-height: 600px) {
-    footer {
-      display: none;
-    }
     main {
       flex: 1 100vh;
     }
