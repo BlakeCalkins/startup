@@ -14,6 +14,20 @@ app.use(express.static('public'));
 var apiRouter = express.Router();
 app.use(`/api`, apiRouter);
 
+app.post('/friends', (req, res) => {
+  try {
+    const friendSet = req.body;
+    console.log('Received friendSet:', friendSet);
+
+    // Save friendSet to a database
+
+    res.json({ success: true, data: friendSet }); // Respond with a JSON success message
+  } catch (error) {
+    console.error('Error:', error.message);
+    res.status(500).json({ success: false, error: 'Internal Server Error' });
+  }
+});
+
 
 // Return the application's default page if the path is unknown
 app.use((_req, res) => {
@@ -23,3 +37,5 @@ app.use((_req, res) => {
   app.listen(port, () => {
     console.log(`Listening on port ${port}`);
   });
+
+friendSet = [];

@@ -1,5 +1,5 @@
 function retrieveSet() {
-    let storedArray = localStorage.getItem('friendKey') ?? false;
+    let storedArray = localStorage.getItem('friendSet') ?? false;
     if (storedArray === false) {
         return false;
     }
@@ -8,16 +8,40 @@ function retrieveSet() {
     return retrievedSet;
 }
 
-function storeSet(friendSet) {
-    let friendArray = Array.from(friendSet);
-    localStorage.setItem('friendKey', JSON.stringify(friendArray));
+async function storeSet(friendSet) {
+    try {
+        const friendArray = Array.from(friendSet);
+
+        // Make the POST request to the server
+        const response = await fetch('/friends', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(friendArray),
+        });
+
+        if (!response.ok) {
+            localStorage.setItem('friendSet', JSON.stringify(friendArray));            
+            throw new Error(`Failed to store data. Status: ${response.status}`);
+        }
+
+        // Optionally, you can handle the response from the server
+        const responseData = await response.json();
+        console.log('Server response:', responseData);
+
+        // Save to localStorage if needed
+        localStorage.setItem('friendSet', JSON.stringify(friendArray));
+    } catch (error) {
+        console.error('Error:', error.message);
+    }
 }
+
+
 function storeFriend(friendSet, friend) {
     storeSet(friendSet);
     num = localStorage.getItem("friendNumber") ?? 0;
     num++;
-    currFriend = 'friend' + num;
-    localStorage.setItem(currFriend, friend);
+    // currFriend = 'friend' + num;
+    // localStorage.setItem(currFriend, friend);
     localStorage.setItem("friendNumber", num);
 }
 
@@ -102,14 +126,14 @@ function removeFriend(friend) {
     if (userConfirmed) {
         // Find friend in localStorage using the value instead of the key,
         // then remove that friend
-        for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
-            const itemValue = localStorage.getItem(key);
+        // for (let i = 0; i < localStorage.length; i++) {
+        //     const key = localStorage.key(i);
+        //     const itemValue = localStorage.getItem(key);
 
-            if (itemValue === friend) {
-                localStorage.removeItem(key);
-            }
-        }
+        //     if (itemValue === friend) {
+        //         localStorage.removeItem(key);
+        //     }
+        // }
         // Remove friend from the set of friends stored in localStorage
         let friendSet = retrieveSet();
         friendSet.delete(friend);
