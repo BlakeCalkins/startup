@@ -16,7 +16,7 @@ app.use(`/api`, apiRouter);
 
 app.post('/friends', (req, res) => {
   try {
-    const friendSet = req.body;
+    friendSet = req.body;
     console.log('Received friendSet:', friendSet);
 
     // Save friendSet to a database
@@ -26,6 +26,11 @@ app.post('/friends', (req, res) => {
     console.error('Error:', error.message);
     res.status(500).json({ success: false, error: 'Internal Server Error' });
   }
+});
+
+let friendSet = [];
+apiRouter.get('/friendSet', (_req, res) => {
+  res.json(friendSet);
 });
 
 
@@ -38,4 +43,3 @@ app.use((_req, res) => {
     console.log(`Listening on port ${port}`);
   });
 
-friendSet = [];

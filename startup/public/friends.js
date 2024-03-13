@@ -1,11 +1,24 @@
-function retrieveSet() {
-    let storedArray = localStorage.getItem('friendSet') ?? false;
-    if (storedArray === false) {
+async function retrieveSet() {
+    // let storedArray = [];
+    try {
+        const response = await fetch('/api/friendSet');
+        console.log(response);
+        const storedArray = await response.json();
+
+
+        if (!response.ok) {
+            console.error('Error:', response.status, response.statusText);
+            throw new Error(`Failed to retrieve data. Status: ${response.status}`);
+        }
+
+        let retrievedArray = Array.isArray(storedArray) ? storedArray : [];
+        let retrievedSet = new Set(retrievedArray);
+        return retrievedSet;
+    } catch (error) {
+        console.error('Error:', error.message);
         return false;
     }
-    let retrievedArray = JSON.parse(storedArray);
-    let retrievedSet = new Set(retrievedArray);
-    return retrievedSet;
+
 }
 
 async function storeSet(friendSet) {
@@ -45,8 +58,8 @@ function storeFriend(friendSet, friend) {
     localStorage.setItem("friendNumber", num);
 }
 
-function addFriend(friend) {
-    let friendSet = retrieveSet();
+async function addFriend(friend) {
+    let friendSet = await retrieveSet();
     if (friendSet) {
         if (friendSet.has(friend)) {
             alert("You are already friends with " + friend)
@@ -112,8 +125,8 @@ function renderFriend(friend) {
     temp.style.display = 'none';
 }
 
-function renderExistingFriends() {
-    friendSet = retrieveSet();
+async function renderExistingFriends() {
+    friendSet = await retrieveSet();
     if (friendSet) {
         friendSet.forEach(element => {
             renderFriend(element);
@@ -121,7 +134,7 @@ function renderExistingFriends() {
     }
 }
 
-function removeFriend(friend) {
+async function removeFriend(friend) {
     const userConfirmed = confirm("Remove " + friend + " as a friend?");
     if (userConfirmed) {
         // Find friend in localStorage using the value instead of the key,
@@ -135,7 +148,7 @@ function removeFriend(friend) {
         //     }
         // }
         // Remove friend from the set of friends stored in localStorage
-        let friendSet = retrieveSet();
+        let friendSet = await retrieveSet();
         friendSet.delete(friend);
         storeSet(friendSet);
         // Decrement the friend count in localStorage
