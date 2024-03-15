@@ -1,4 +1,4 @@
-function checkForMultipleEntries(entryDateString, entryNum) {
+    function checkForMultipleEntries(entryDateString, entryNum) {
     if (localStorage.getItem(entryDateString)) {
         while (localStorage.getItem(entryDateString)) {
             entryDateString = stripRepeat(entryDateString);

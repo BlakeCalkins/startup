@@ -33,6 +33,31 @@ apiRouter.get('/friendSet', (_req, res) => {
   res.json(friendSet);
 });
 
+let user = '';
+let favObj = {};
+let fav1 = '';
+let fav2 = '';
+let fav3 = '';
+
+app.post('/:user/favorites', (req, res) => {
+  user = req.params.user;
+  favObj = req.body; 
+  let num = favObj.favNum;
+  switch (num) {
+    case "fav1":
+      fav1 = favObj.favorite;
+      break;
+    case "fav2":
+      fav2 = favObj.favorite;
+      break;
+    case "fav3":
+      fav3 = favObj.favorite;
+      break;
+  } 
+  console.log(`${favObj.favNum} was set to : ${favObj.favorite}`);
+  console.log('user was set to: ', user);
+  res.json({ success: true, data: favObj }); // Respond with a JSON success message
+});
 
 // Return the application's default page if the path is unknown
 app.use((_req, res) => {
