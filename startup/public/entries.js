@@ -45,16 +45,12 @@ function renderEntry(entryObj) {
 
 }
 
-function renderExistingEntries() {
-    const regex = /entry([0-1][0-9][0-3][0-9])( \(.*\))*/;
-    for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        if (regex.test(key)) {
-            const value = JSON.parse(localStorage.getItem(key));
-            console.log(value);
-            // console.log(`Rendering entry for key: ${key}`);
-            renderEntry(value);
-        }
+async function renderExistingEntries() {
+    let mapArray = await retrieveArray();
+    console.log(mapArray, typeof mapArray);
+    let entriesMap = new Map(mapArray);
+    for (let [, value] of entriesMap) {
+        renderEntry(value);
     }
 }
 
@@ -76,47 +72,36 @@ function renderAbbr(entry) {
     newDiv.appendChild(newP);
 }
 
-function renderAbbreviatedEntries() {
-    let entryArray = retrieveArray();
+async function renderAbbreviatedEntries() {
+    let entryArray = await retrieveArray();
     if (!entryArray) {
         return;
     }
-    let entryKey2 = entryArray[entryArray.length - 2] ?? false;
-    let entryKey1 = entryArray[entryArray.length - 1];
-    let recentEntry1 = JSON.parse(localStorage.getItem(entryKey1));
+    let entry2 = entryArray[entryArray.length - 2] ?? false;
+    let entry1 = entryArray[entryArray.length - 1];
+    let recentEntry1 = entry1[1];
     renderAbbr(recentEntry1);
-    if (entryKey2) {
-        let recentEntry2 = JSON.parse(localStorage.getItem(entryKey2));
+    if (entry2) {
+        let recentEntry2 = entry2[1];
         renderAbbr(recentEntry2);
     }
     var temp = document.getElementById('tempEntry');
     temp.style.display = 'none';
 }
 
-function storeArray(toBeStored) {
-    let arrayString = JSON.stringify(toBeStored);
-    localStorage.setItem("entryKeys", arrayString);
-}
+async function retrieveArray() {
+    try {
+        const response = await fetch(`/${getPlayerName()}/entries`);
+        const mapArray = await response.json();
+        if (!response.ok) {
+            throw new Error(`Failed to store data. Status: ${response.status}`);
+        }
+        return mapArray;
 
-function retrieveArray() {
-    let storedArray = localStorage.getItem("entryKeys") ?? false;
-    if (!storedArray) {
-        return false;
+    } catch (error) {
+        console.error('Error:', error.message);
     }
-    let parsedArray = JSON.parse(storedArray);
-    return parsedArray;
-}
 
-function storeEntryInArray(entryKey) {
-    let storedArray = retrieveArray();
-    if (!storedArray) {
-        let newArray = [];
-        newArray.push(entryKey);
-        storeArray(newArray);
-        return;
-    }
-    storedArray.push(entryKey);
-    storeArray(storedArray);
 }
 
 async function makeEntryObj() {
@@ -158,11 +143,6 @@ async function makeEntryObj() {
     } catch (error) {
         console.error('Error:', error.message);
     }
-    const [month, day] = getMonthandDay(date);
-    entryDateString = 'entry' + month + day;
-    entryDateString = checkForMultipleEntries(entryDateString, 1);
-    localStorage.setItem(entryDateString, entryObjString);
-    storeEntryInArray(entryDateString);
 }
 
 if (document.getElementById("restaurant")) {

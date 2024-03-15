@@ -29,7 +29,7 @@ app.post('/:user/credentials', (req, res) => {
 });
 
 // friends.js endpoints
-app.post('/friends', (req, res) => {
+app.post('/:user/friends', (req, res) => {
   try {
     friendSet = req.body;
     console.log('Received friendSet:', friendSet);
@@ -44,7 +44,7 @@ app.post('/friends', (req, res) => {
 });
 
 let friendSet = [];
-apiRouter.get('/friendSet', (_req, res) => {
+apiRouter.get('/:user/friendSet', (_req, res) => {
   res.json(friendSet);
 });
 
@@ -126,7 +126,7 @@ function getMonthandDay(date) {
 
 // entries.js endpoints
 
-let entriesObj = {};
+let entriesMap = new Map();
 let entryDates = new Set();
 app.post('/:user/entry', (req, res) => {
   try {
@@ -136,13 +136,18 @@ app.post('/:user/entry', (req, res) => {
     const [month, day] = getMonthandDay(entryObj.date);
     let entryDateString = 'entry' + month + day;
     entryDateString = checkForMultipleEntries(entryDateString, 1);
-    entriesObj[entryDateString] = entryObj;
+    entriesMap.set(entryDateString, entryObj);
     entryDates.add(entryDateString);
-    console.log(entryDates, entriesObj);
+    console.log(entryDates, entriesMap);
   } catch (error) {
     console.error('Error:', error.message);
     res.status(500).json({ success: false, error: 'Internal Server Error' });
   }
+});
+
+app.get('/:user/entries', (_req, res) => {
+  let mapArray = Array.from(entriesMap);
+  res.json(mapArray);
 });
 
 // Return the application's default page if the path is unknown

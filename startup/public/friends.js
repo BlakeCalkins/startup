@@ -5,7 +5,7 @@ function getPlayerName() {
 async function retrieveSet() {
     // let storedArray = [];
     try {
-        const response = await fetch('/api/friendSet');
+        const response = await fetch(`/api/${getPlayerName()}/friendSet`);
         console.log(response);
         const storedArray = await response.json();
 
@@ -30,7 +30,7 @@ async function storeSet(friendSet) {
         const friendArray = Array.from(friendSet);
 
         // Make the POST request to the server
-        const response = await fetch('/friends', {
+        const response = await fetch(`/${getPlayerName()}/friends`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(friendArray),
