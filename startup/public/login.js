@@ -1,11 +1,26 @@
-function login() {
+async function login() {
     const nameEl = document.querySelector("#name");
     const pswd = document.querySelector("#password");
     // if (nameEl.trim() === '' || pswd.trim() === '') {
     //     alert('Please enter a value before submitting.');
     //     return false;
     //   }
-      
+    let credenObj = {
+      "userName": nameEl,
+      "password": pswd,
+    }
+    try {
+      const response = await fetch(`/${nameEl}/credentials`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(credenObj),
+      });
+      if (!response.ok) {
+          throw new Error(`Failed to store data. Status: ${response.status}`);
+      }
+      const res = await response.json();
+  } catch (error) {
+  }
     localStorage.setItem("userName", nameEl.value);
     localStorage.setItem("password", pswd.value);
     window.location.href = "homepage.html";
