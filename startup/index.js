@@ -97,7 +97,53 @@ app.get('/:user/currFavs', (_req, res) => {
   res.json(favObj);
 });
 
+// entries.js functions
+
+function checkForMultipleEntries(entryDateString, entryNum) {
+  if (entryDates.has(entryDateString)) {
+      while (entryDates.has(entryDateString)) {
+          entryDateString = stripRepeat(entryDateString);
+          entryNum++;
+          entryDateString = entryDateString + " (" + entryNum + ")";
+      }
+  }
+  return entryDateString;
+}
+
+function stripRepeat(entryDateString) {
+  if (entryDateString[entryDateString.length - 1] == ')') {
+      entryDateString = entryDateString.substring(0, entryDateString.length - 4)
+  }
+  return entryDateString;
+}
+
+function getMonthandDay(date) {
+  let dateArray = date.split('-');
+  let month = dateArray[1]
+  let day = dateArray[2];
+  return [month, day];
+}
+
 // entries.js endpoints
+
+let entriesObj = {};
+let entryDates = new Set();
+app.post('/:user/entry', (req, res) => {
+  try {
+    let entryObj = req.body;
+
+    res.json({ success: true, data: entryObj});
+    const [month, day] = getMonthandDay(entryObj.date);
+    let entryDateString = 'entry' + month + day;
+    entryDateString = checkForMultipleEntries(entryDateString, 1);
+    entriesObj[entryDateString] = entryObj;
+    entryDates.add(entryDateString);
+    console.log(entryDates, entriesObj);
+  } catch (error) {
+    console.error('Error:', error.message);
+    res.status(500).json({ success: false, error: 'Internal Server Error' });
+  }
+});
 
 // Return the application's default page if the path is unknown
 app.use((_req, res) => {

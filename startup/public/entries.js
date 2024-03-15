@@ -1,19 +1,5 @@
-    function checkForMultipleEntries(entryDateString, entryNum) {
-    if (localStorage.getItem(entryDateString)) {
-        while (localStorage.getItem(entryDateString)) {
-            entryDateString = stripRepeat(entryDateString);
-            entryNum++;
-            entryDateString = entryDateString + " (" + entryNum + ")";
-        }
-    }
-    return entryDateString;
-}
-
-function stripRepeat(entryDateString) {
-    if (entryDateString[entryDateString.length - 1] == ')') {
-        entryDateString = entryDateString.substring(0, entryDateString.length - 4)
-    }
-    return entryDateString;
+function getPlayerName() {
+    return localStorage.getItem('userName') ?? 'User';
 }
 
 function getMonthandDay(date) {
@@ -133,7 +119,7 @@ function storeEntryInArray(entryKey) {
     storeArray(storedArray);
 }
 
-function makeEntryObj() {
+async function makeEntryObj() {
     let restaurant = document.getElementById('restaurant').value;
     let date = document.getElementById('date').value;
     let dish = document.getElementById('dish').value;
@@ -158,12 +144,23 @@ function makeEntryObj() {
         'rating': selectedRating,
         'thoughts': thoughts,
     };
-    console.log(entryObj);
     renderEntry(entryObj);
+    const entryObjString = JSON.stringify(entryObj);
+    try {
+        const response = await fetch(`/${getPlayerName()}/entry`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: entryObjString,
+        });
+        if (!response.ok) {
+            throw new Error(`Failed to store data. Status: ${response.status}`);
+        }
+    } catch (error) {
+        console.error('Error:', error.message);
+    }
     const [month, day] = getMonthandDay(date);
     entryDateString = 'entry' + month + day;
     entryDateString = checkForMultipleEntries(entryDateString, 1);
-    const entryObjString = JSON.stringify(entryObj);
     localStorage.setItem(entryDateString, entryObjString);
     storeEntryInArray(entryDateString);
 }

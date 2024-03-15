@@ -1,3 +1,7 @@
+function getPlayerName() {
+    return localStorage.getItem('userName') ?? 'User';
+}
+
 async function retrieveSet() {
     // let storedArray = [];
     try {
