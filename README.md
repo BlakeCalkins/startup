@@ -67,4 +67,13 @@ For this deliverable, I implemented the logic for my webpage in order for it to 
 - **Login** - The user's username and password are stored in localStorage and then their name is displayed on the homepage.html page.
 - **Database** - Previous entries and a friendlist is displayed based off of the user's input. Currently this is stored and retrieved from local storage, but will be in database later. Viewing a friend's homepage also displays their page. This is currently a placeholder as well.
 - **WebSocket** - Friend requests are displayed on the homepage as soon as the request is made from the other person. Currently this is a placeholder card that will still add the friend to the friendlist if accepted.
-- **Application logic** - Entries and favorites can be entered by the user and will update their homepage. 
+- **Application logic** - Entries and favorites can be entered by the user and will update their homepage.
+
+## Service deliverable
+For this deliverable I added backend endpoints that gets data from the user in prep to store it in the DB.
+
+- **Node.js/Express HTTP service** - done!
+- **Static middleware for frontend** - done!
+-  **Calls to third party endpoints** - I'm calling a third party website to get a random food image and display it on the login page.
+-  **Backend service endpoints** - Data manipulation moved to backend. Data stored locally on server now, waiting for DB transfer.
+-  **Frontend calls service endpoints** - I called fetch to send data to and receive data from the server on my frontend.
