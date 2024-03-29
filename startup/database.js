@@ -4,7 +4,10 @@ const uuid = require('uuid');
 const config = require('./dbConfig.json');
 
 const url = `mongodb+srv://${config.userName}:${config.password}@${config.hostname}`;
+const client = new MongoClient(url);
 const db = client.db('foodyLog');
+const userCollection = db.collection('user');
+
 
 // This will asynchronously test the connection and exit the process if it fails
 (async function testConnection() {
@@ -14,3 +17,26 @@ const db = client.db('foodyLog');
     console.log(`Unable to connect to database with ${url} because ${ex.message}`);
     process.exit(1);
   });
+
+
+  function getUser(userName) {
+    return userCollection.findOne({ userName: userName });
+  }
+
+  function addEntry(entry) {
+    
+  }
+
+  async function createUser(userName, password) {
+    // Hash the password before we insert it into the database
+    const passwordHash = await bcrypt.hash(password, 10);
+  
+    const user = {
+      userName: userName,
+      password: passwordHash,
+      token: uuid.v4(),
+    };
+    await userCollection.insertOne(user);
+  
+    return user;
+  }
