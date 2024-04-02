@@ -51,50 +51,21 @@ apiRouter.get('/:user/friendSet', (_req, res) => {
 });
 
 // homepage.js endpoints
-let user = '';
-let fav1 = "Favorite #1";
-let fav2 = "Favorite #2";
-let fav3 = "Favorite #3";
-let inputtedFavs = false;
 
-app.post('/:user/favorites', (req, res) => {
-  user = req.params.user;
-  let incomingFavs = req.body; 
-  let num = incomingFavs.favNum;
-  switch (num) {
-    case "fav1":
-      fav1 = incomingFavs.favorite;
-      break;
-    case "fav2":
-      fav2 = incomingFavs.favorite;
-      break;
-    case "fav3":
-      fav3 = incomingFavs.favorite;
-      break;
-  } 
-  inputtedFavs = incomingFavs.inputtedFavs;
-  console.log(`fav1's value' : ${fav1}`);
-  console.log(`fav2's value' : ${fav2}`);
-  console.log(`fav3's value' : ${fav3}`);
 
-  console.log('user was set to: ', user);
-  console.log(`inputtedFavs was set to: `, inputtedFavs);
-  res.json({ success: true, data: incomingFavs }); // Respond with a JSON success message
+app.post('/:user/favorites', async (req, res) => {
+  let user = req.params.user;
+  let incomingFav = req.body; 
+  let favorite = incomingFav.favorite;
+  let num = incomingFav.favNum;
+  await DB.updateFavorites(user, num, favorite);
+  console.log(user, num, favorite);
+  res.json({ success: true, data: incomingFav }); // Respond with a JSON success message
 });
 
-let favObj = {
-  "inputtedFavs": inputtedFavs,
-  "fav1": fav1,
-  "fav2": fav2,
-  "fav3": fav3,
-};
-app.get('/:user/currFavs', (_req, res) => {
-  favObj = {
-    "inputtedFavs": inputtedFavs,
-    "fav1": fav1,
-    "fav2": fav2,
-    "fav3": fav3,
-  };
+
+app.get('/:user/currFavs', async (req, res) => {
+  let favObj = await DB.getFavorites(req.params.user);
   console.log(favObj);
   res.json(favObj);
 });

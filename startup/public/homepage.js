@@ -4,10 +4,6 @@ function getPlayerName() {
 
 async function loadFavorites () {
     user = getPlayerName();
-    let fav1 = '';
-    let fav2 = '';
-    let fav3 = '';
-    let inputtedFavs = false;
     try {
         const response = await fetch(`/${user}/currFavs`);
         console.log(response);
@@ -34,7 +30,7 @@ async function loadFavorites () {
         entry1.textContent = fav1;
         entry2.textContent = fav2;
         entry3.textContent = fav3;
-        addFav();
+        deleteTemp();
     }
 }
 
@@ -43,7 +39,7 @@ let hder = `${getPlayerName()}'s Homepage`
 userName.textContent = hder;
 loadFavorites();
 
-function addFav() {
+function deleteTemp() {
     var button = document.getElementById('tempButton');
     var favs = document.getElementById('favorites');
     var temp = document.getElementById('temp');
@@ -79,9 +75,6 @@ async function changeFav(num) {
     } catch (error) {
         console.error('Error:', error.message);
     }
-    console.log("favTitle is: ", favTitle);
-    localStorage.setItem(buttonID, favTitle);
-    localStorage.setItem('inputtedFavs', true);
     let listID = document.getElementById(buttonID);
     listID.textContent = favTitle;
 }

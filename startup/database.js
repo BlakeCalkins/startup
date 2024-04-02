@@ -21,6 +21,40 @@ const friendsCollection = db.collection("friends");
     process.exit(1);
   });
 
+  async function getFavorites(user) {
+    try {
+      let defaultFavs = {
+        'user': user,
+        'fav1': "Favorite #1",
+        'fav2': "Favorite #2",
+        'fav3': "Favorite #3",
+        'inputtedFavs': false,
+      }
+      const query = { user: user };
+      const favorites = await favoritesCollection.findOne(query) ?? defaultFavs;
+      return favorites;
+    } catch (error) {
+      console.error('Error fetching documents:', error);
+    }
+  }
+
+  async function updateFavorites(user, num, favorite) {
+    try {
+      let favorites = await getFavorites(user);
+      favorites[num] = favorite;
+      favorites.inputtedFavs = true;
+      const query = { user: user };
+
+      const result = await favoritesCollection.findOneAndReplace(
+        query, // Find documents with the specified user
+        favorites, // Replace the found document with the new document
+        { returnOriginal: false, upsert: true } // Options: return the updated document, and insert if not found
+      );
+      return result;
+    } catch (error) {
+      console.error('Error adding document:', error);
+    } 
+  }
 
   function getUser(userName) {
     return userCollection.findOne({ userName: userName });
@@ -59,6 +93,8 @@ const friendsCollection = db.collection("friends");
   }
 
   module.exports = {
+    getFavorites,
+    updateFavorites,
     getUser,
     addEntry,
     getEntries,
