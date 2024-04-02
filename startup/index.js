@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+const DB = require('./database.js');
+const { Db } = require('mongodb');
 
 // The service port. In production the front-end code is statically hosted by the service on the same port.
 const port = process.argv.length > 2 ? process.argv[2] : 3000;
@@ -99,55 +101,25 @@ app.get('/:user/currFavs', (_req, res) => {
 
 // entries.js functions
 
-function checkForMultipleEntries(entryDateString, entryNum) {
-  if (entryDates.has(entryDateString)) {
-      while (entryDates.has(entryDateString)) {
-          entryDateString = stripRepeat(entryDateString);
-          entryNum++;
-          entryDateString = entryDateString + " (" + entryNum + ")";
-      }
-  }
-  return entryDateString;
-}
 
-function stripRepeat(entryDateString) {
-  if (entryDateString[entryDateString.length - 1] == ')') {
-      entryDateString = entryDateString.substring(0, entryDateString.length - 4)
-  }
-  return entryDateString;
-}
-
-function getMonthandDay(date) {
-  let dateArray = date.split('-');
-  let month = dateArray[1]
-  let day = dateArray[2];
-  return [month, day];
-}
 
 // entries.js endpoints
 
-let entriesMap = new Map();
-let entryDates = new Set();
-app.post('/:user/entry', (req, res) => {
+app.post('/:user/entry', async (req, res) => {
   try {
     let entryObj = req.body;
-
     res.json({ success: true, data: entryObj});
-    const [month, day] = getMonthandDay(entryObj.date);
-    let entryDateString = 'entry' + month + day;
-    entryDateString = checkForMultipleEntries(entryDateString, 1);
-    entriesMap.set(entryDateString, entryObj);
-    entryDates.add(entryDateString);
-    console.log(entryDates, entriesMap);
+    await DB.addEntry(entryObj);
+    console.log(entryObj);
   } catch (error) {
     console.error('Error:', error.message);
     res.status(500).json({ success: false, error: 'Internal Server Error' });
   }
 });
 
-app.get('/:user/entries', (_req, res) => {
-  let mapArray = Array.from(entriesMap);
-  res.json(mapArray);
+app.get('/:user/entries', async (req, res) => {
+  let entriesArray = await DB.getEntries(req.params.user);
+  res.json(entriesArray);
 });
 
 // Return the application's default page if the path is unknown

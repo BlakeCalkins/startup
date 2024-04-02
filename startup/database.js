@@ -6,7 +6,10 @@ const config = require('./dbConfig.json');
 const url = `mongodb+srv://${config.userName}:${config.password}@${config.hostname}`;
 const client = new MongoClient(url);
 const db = client.db('foodyLog');
-const userCollection = db.collection('user');
+const userCollection = db.collection('users');
+const entryCollection = db.collection('entries');
+const favoritesCollection = db.collection('favorites');
+const friendsCollection = db.collection("friends");
 
 
 // This will asynchronously test the connection and exit the process if it fails
@@ -23,8 +26,22 @@ const userCollection = db.collection('user');
     return userCollection.findOne({ userName: userName });
   }
 
-  function addEntry(entry) {
-    
+  function addEntry(entryObj) {
+      entryCollection.insertOne(entryObj);
+  }
+
+  async function getEntries(user) {
+    try {
+      const query = { user: user };
+      const entries = await entryCollection.find(query).toArray();
+      if (entries.length === 0) {
+        return [];
+      } else {
+        return entries;
+      }
+    } catch (error) {
+      console.error('Error fetching documents:', error);
+    }
   }
 
   async function createUser(userName, password) {
@@ -40,3 +57,10 @@ const userCollection = db.collection('user');
   
     return user;
   }
+
+  module.exports = {
+    getUser,
+    addEntry,
+    getEntries,
+    createUser
+  };

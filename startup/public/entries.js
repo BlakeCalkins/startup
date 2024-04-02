@@ -46,12 +46,12 @@ function renderEntry(entryObj) {
 }
 
 async function renderExistingEntries() {
-    let mapArray = await retrieveArray();
-    console.log(mapArray, typeof mapArray);
-    let entriesMap = new Map(mapArray);
-    for (let [, value] of entriesMap) {
-        renderEntry(value);
-    }
+    let entriesArray = await retrieveArray();
+    let reversedArray = entriesArray.reverse();
+    console.log(reversedArray);
+    reversedArray.forEach(function(element) {
+        renderEntry(element);
+      });
 }
 
 function renderAbbr(entry) {
@@ -78,25 +78,26 @@ async function renderAbbreviatedEntries() {
         return;
     }
     let entry2 = entryArray[entryArray.length - 2] ?? false;
-    let entry1 = entryArray[entryArray.length - 1];
-    let recentEntry1 = entry1[1];
-    renderAbbr(recentEntry1);
-    if (entry2) {
-        let recentEntry2 = entry2[1];
-        renderAbbr(recentEntry2);
+    let entry1 = entryArray[entryArray.length - 1] ?? false;
+    if (entry1) {
+        renderAbbr(entry1);
+        var temp = document.getElementById('tempEntry');
+        temp.style.display = 'none';
     }
-    var temp = document.getElementById('tempEntry');
-    temp.style.display = 'none';
+    if (entry2) {
+        renderAbbr(entry2);
+    }
 }
+    
 
 async function retrieveArray() {
     try {
         const response = await fetch(`/${getPlayerName()}/entries`);
-        const mapArray = await response.json();
+        const entriesArray = await response.json();
         if (!response.ok) {
             throw new Error(`Failed to store data. Status: ${response.status}`);
         }
-        return mapArray;
+        return entriesArray;
 
     } catch (error) {
         console.error('Error:', error.message);
@@ -122,6 +123,7 @@ async function makeEntryObj() {
         }
     });
     const entryObj = {
+        'user': getPlayerName(),
         'restaurant': restaurant,
         'date': date,
         'dish': dish,
