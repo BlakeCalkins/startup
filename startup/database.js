@@ -21,6 +21,28 @@ const friendsCollection = db.collection("friends");
     process.exit(1);
   });
 
+  function getUser(userName) {
+    return userCollection.findOne({ userName: userName });
+  }
+
+  function getUserByToken(token) {
+    return userCollection.findOne({ token: token });
+  }
+  
+async function createUser(email, password) {
+  // Hash the password before we insert it into the database
+  const passwordHash = await bcrypt.hash(password, 10);
+
+  const user = {
+    email: email,
+    password: passwordHash,
+    token: uuid.v4(),
+  };
+  await userCollection.insertOne(user);
+
+  return user;
+}
+
   async function getFavorites(user) {
     try {
       let defaultFavs = {
@@ -56,10 +78,6 @@ const friendsCollection = db.collection("friends");
     } 
   }
 
-  function getUser(userName) {
-    return userCollection.findOne({ userName: userName });
-  }
-
   function addEntry(entryObj) {
       entryCollection.insertOne(entryObj);
   }
@@ -93,9 +111,11 @@ const friendsCollection = db.collection("friends");
   }
 
   module.exports = {
+    getUser,
+    getUserByToken,
+    createUser,
     getFavorites,
     updateFavorites,
-    getUser,
     addEntry,
     getEntries,
     createUser
