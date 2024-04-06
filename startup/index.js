@@ -4,6 +4,8 @@ const express = require('express');
 const app = express();
 const DB = require('./database.js');
 
+const authCookieName = 'token';
+
 
 // The service port. In production the front-end code is statically hosted by the service on the same port.
 const port = process.argv.length > 2 ? process.argv[2] : 3000;
@@ -78,25 +80,13 @@ secureApiRouter.use(async (req, res, next) => {
   authToken = req.cookies[authCookieName];
   const user = await DB.getUserByToken(authToken);
   if (user) {
-    next();
+    next(); 
   } else {
     res.status(401).send({ msg: 'Unauthorized' });
   }
 });
 
 // login.js endpoints
-let users = new Set();
-app.post('/:username/credentials', (req, res) => {
-  try {
-    let credenObj = req.body;
-    users.add(credenObj);
-
-    res.json({ success: true, data: credenObj});
-  } catch (error) {
-    console.error('Error:', error.message);
-    res.status(500).json({ success: false, error: 'Internal Server Error' });
-  }
-});
 
 // friends.js endpoints
 app.post('/:username/friends', (req, res) => {
@@ -122,7 +112,7 @@ apiRouter.get('/:username/friendSet', (_req, res) => {
 
 
 app.post('/:username/favorites', async (req, res) => {
-  let user = req.params.user;
+  let user = req.params.username;
   let incomingFav = req.body; 
   let favorite = incomingFav.favorite;
   let num = incomingFav.favNum;
@@ -133,7 +123,7 @@ app.post('/:username/favorites', async (req, res) => {
 
 
 app.get('/:username/currFavs', async (req, res) => {
-  let favObj = await DB.getFavorites(req.params.user);
+  let favObj = await DB.getFavorites(req.params.username);
   console.log(favObj);
   res.json(favObj);
 });
@@ -157,7 +147,7 @@ app.post('/:username/entry', async (req, res) => {
 });
 
 app.get('/:username/entries', async (req, res) => {
-  let entriesArray = await DB.getEntries(req.params.user);
+  let entriesArray = await DB.getEntries(req.params.username);
   res.json(entriesArray);
 });
 

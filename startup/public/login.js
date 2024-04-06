@@ -41,6 +41,10 @@ async function loginOrCreate(endpoint) {
   }
 }
 
+function homePage() {
+  window.location.href = 'homepage.html';
+}
+
 function logout() {
   localStorage.removeItem('userName');
   fetch(`/api/auth/logout`, {
