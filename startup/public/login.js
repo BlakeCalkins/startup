@@ -31,7 +31,7 @@ async function loginOrCreate(endpoint) {
 
   if (response.ok) {
     localStorage.setItem('userName', userName);
-    window.location.href = 'play.html';
+    window.location.href = 'homepage.html';
   } else {
     const body = await response.json();
     const modalEl = document.querySelector('#msgModal');
@@ -49,7 +49,6 @@ function logout() {
 }
 
 async function getUser(userName) {
-  let scores = [];
   // See if we have a user with the given userName.
   const response = await fetch(`/api/user/${userName}`);
   if (response.status === 200) {
@@ -60,9 +59,9 @@ async function getUser(userName) {
 }
 
 function setDisplay(controlId, display) {
-  const playControlEl = document.querySelector(`#${controlId}`);
-  if (playControlEl) {
-    playControlEl.style.display = display;
+  const ControlEl = document.querySelector(`#${controlId}`);
+  if (ControlEl) {
+    ControlEl.style.display = display;
   }
 }
 
