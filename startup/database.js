@@ -29,12 +29,12 @@ const friendsCollection = db.collection("friends");
     return userCollection.findOne({ token: token });
   }
   
-async function createUser(email, password) {
+async function createUser(userName, password) {
   // Hash the password before we insert it into the database
   const passwordHash = await bcrypt.hash(password, 10);
 
   const user = {
-    email: email,
+    userName: userName,
     password: passwordHash,
     token: uuid.v4(),
   };

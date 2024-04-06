@@ -29,14 +29,24 @@
     <main class="container-fluid text-center">
         <h1>Welcome</h1>
       <p>With FoodyLog, you can record your dining experiences to remember what was good and what to avoid. Login to get started.</p>
-      <form action="javascript:login()">
-        <label for="name">Name</label>
-        <input type="text" id="name" placeholder="your name here" required/>
-        <br />
-        <label for="password">Password: </label>
-        <input type="password" id="password" name="password" placeholder="password" required/>
-        <button type="submit" class="btn btn-outline-primary">Login</button>
-      </form>
+      <div id="loginControls" style="display: none">
+        <div>
+            <label for="name">Username</label>
+            <input type="text" id="userName" placeholder="your Username" />
+        </div>
+        <div>
+            <label for="password">Password: </label>
+            <input type="password" id="userPassword" placeholder="password" />
+        </div>
+        <button type="button" class="btn btn-outline-primary" onclick="loginUser()">Login</button>
+        <button type="button" class="btn btn-outline-success" onclick="createUser()">Create</button>
+      </div>
+      <!-- Displayed when authenticated -->
+      <div id="authenticatedControls" style="display: none">
+        <div id="playerName"></div>
+        <button type="button" class="btn btn-outline-danger" onclick="logout()">Logout</button>
+      </div>
+    </div> 
       <img id="loginImg" alt="loginImg">
       
     </main>

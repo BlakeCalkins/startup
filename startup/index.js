@@ -26,10 +26,10 @@ app.use(`/api`, apiRouter);
 
 // CreateAuth token for a new user
 apiRouter.post('/auth/create', async (req, res) => {
-  if (await DB.getUser(req.body.email)) {
+  if (await DB.getUser(req.body.userName)) {
     res.status(409).send({ msg: 'Existing user' });
   } else {
-    const user = await DB.createUser(req.body.email, req.body.password);
+    const user = await DB.createUser(req.body.userName, req.body.password);
 
     // Set the cookie
     setAuthCookie(res, user.token);
@@ -42,7 +42,7 @@ apiRouter.post('/auth/create', async (req, res) => {
 
 // GetAuth token for the provided credentials
 apiRouter.post('/auth/login', async (req, res) => {
-  const user = await DB.getUser(req.body.email);
+  const user = await DB.getUser(req.body.userName);
   if (user) {
     if (await bcrypt.compare(req.body.password, user.password)) {
       setAuthCookie(res, user.token);
@@ -60,11 +60,11 @@ apiRouter.delete('/auth/logout', (_req, res) => {
 });
 
 // GetUser returns information about a user
-apiRouter.get('/user/:email', async (req, res) => {
-  const user = await DB.getUser(req.params.email);
+apiRouter.get('/user/:username', async (req, res) => {
+  const user = await DB.getUser(req.params.userName);
   if (user) {
     const token = req?.cookies.token;
-    res.send({ email: user.email, authenticated: token === user.token });
+    res.send({ userName: user.userName, authenticated: token === user.token });
     return;
   }
   res.status(404).send({ msg: 'Unknown' });
@@ -86,7 +86,7 @@ secureApiRouter.use(async (req, res, next) => {
 
 // login.js endpoints
 let users = new Set();
-app.post('/:user/credentials', (req, res) => {
+app.post('/:username/credentials', (req, res) => {
   try {
     let credenObj = req.body;
     users.add(credenObj);
@@ -99,7 +99,7 @@ app.post('/:user/credentials', (req, res) => {
 });
 
 // friends.js endpoints
-app.post('/:user/friends', (req, res) => {
+app.post('/:username/friends', (req, res) => {
   try {
     friendSet = req.body;
     console.log('Received friendSet:', friendSet);
@@ -114,14 +114,14 @@ app.post('/:user/friends', (req, res) => {
 });
 
 let friendSet = [];
-apiRouter.get('/:user/friendSet', (_req, res) => {
+apiRouter.get('/:username/friendSet', (_req, res) => {
   res.json(friendSet);
 });
 
 // homepage.js endpoints
 
 
-app.post('/:user/favorites', async (req, res) => {
+app.post('/:username/favorites', async (req, res) => {
   let user = req.params.user;
   let incomingFav = req.body; 
   let favorite = incomingFav.favorite;
@@ -132,7 +132,7 @@ app.post('/:user/favorites', async (req, res) => {
 });
 
 
-app.get('/:user/currFavs', async (req, res) => {
+app.get('/:username/currFavs', async (req, res) => {
   let favObj = await DB.getFavorites(req.params.user);
   console.log(favObj);
   res.json(favObj);
@@ -144,7 +144,7 @@ app.get('/:user/currFavs', async (req, res) => {
 
 // entries.js endpoints
 
-app.post('/:user/entry', async (req, res) => {
+app.post('/:username/entry', async (req, res) => {
   try {
     let entryObj = req.body;
     res.json({ success: true, data: entryObj});
@@ -156,7 +156,7 @@ app.post('/:user/entry', async (req, res) => {
   }
 });
 
-app.get('/:user/entries', async (req, res) => {
+app.get('/:username/entries', async (req, res) => {
   let entriesArray = await DB.getEntries(req.params.user);
   res.json(entriesArray);
 });
