@@ -77,3 +77,14 @@ For this deliverable I added backend endpoints that gets data from the user in p
 -  **Calls to third party endpoints** - I'm calling a third party website to get a random food image and display it on the login page.
 -  **Backend service endpoints** - Data manipulation moved to backend. Data stored locally on server now, waiting for DB transfer.
 -  **Frontend calls service endpoints** - I called fetch to send data to and receive data from the server on my frontend.
+
+## DB/Login deliverable
+For this deliverable I added user creation, authentication, and encryption, as well as persistent storage of the user's favorite restaurants and their entries in mongoDB. 
+
+- **MongoDB Atlas database created** - done!
+- **Stores data in MongoDB** - Entries and Favorites of user are stored in MongoDB, as well as usernames and encrypted passwords.
+- **User registration** - Creates a new account in the database.
+- **existing user** - Logs user in if user already exists and pulls up their previously stored favorites and entries.
+- **Use MongoDB to store credentials** - Stores user and their credentials.
+- **Restricts functionality** - You can only use the website once you have logged in.
+- **Note** - I didn't store the friends into the Database on this deliverable as I'm going to do that in the webSocket one so that friends have to accept your request before you can be their friend. 
