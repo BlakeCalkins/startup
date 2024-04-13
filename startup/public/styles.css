@@ -121,14 +121,6 @@ main {
         
 }
 
-.checkbox {
-    display: none;
-}
-
-.checkbox:checked + .box {
-    display: none;
-}
-
 label, input {
     padding: .2em;
     margin: .3em;

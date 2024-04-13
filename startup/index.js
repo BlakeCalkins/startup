@@ -103,9 +103,10 @@ app.post('/:username/friends', (req, res) => {
   }
 });
 
-let friendSet = [];
-apiRouter.get('/:username/friendSet', (_req, res) => {
-  res.json(friendSet);
+
+apiRouter.get('/:username/friendSet', async (req, res) => {
+  let friendsArray = await DB.getFriends(req.params.username);
+  res.json(friendsArray);
 });
 
 // homepage.js endpoints

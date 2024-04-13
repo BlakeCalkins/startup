@@ -170,4 +170,12 @@ async function removeFriend(friend) {
     }
 }
 
+function acceptRequest(boxId, friend) {
+    dismissRequest(boxId);
+    addFriend(friend)
+}
+function dismissRequest(boxId) {
+    document.getElementById(boxId).style.display = 'none';
+}
+
 renderExistingFriends();

@@ -80,10 +80,9 @@
             </ul>
           </section>
           <section>
-          <input type="checkbox" class="checkbox" id="dismissCheckbox">
-          <div class="box">Kay S. sent you a friend request. <br> 
-            <button type="button" onclick="acceptRequest('dismissCheckbox','Kay S.')" class="btn btn-outline-primary">Accept</button> 
-            <button type="button" onclick="dismissRequest()" class="btn btn-outline-secondary">Dismiss</button>
+          <div class="box" id="kayRequest">Kay S. sent you a friend request. <br> 
+            <button type="button" onclick="acceptRequest('kayRequest','Kay S.')" class="btn btn-outline-primary">Accept</button> 
+            <button type="button" onclick="dismissRequest('kayRequest')" class="btn btn-outline-secondary">Dismiss</button>
           </div>
           
         </section>
@@ -92,15 +91,7 @@
         <span>Blake Calkins</span>
         <a class="nav-link text-light" href="https://github.com/BlakeCalkins/startup.git">Github</a>
     </footer>
-    <script>
-        function acceptRequest(cbName, friend) {
-            dismissRequest(cbName);
-            addFriend(friend)
-        }
-        function dismissRequest() {
-            document.getElementById('dismissCheckbox').checked = true;
-        }
-    </script>
+    
     <script src="homepage.js"></script>
     <script src="friends.js"></script>
     <script src="entries.js"></script>

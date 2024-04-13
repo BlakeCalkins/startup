@@ -96,6 +96,20 @@ async function createUser(userName, password) {
     }
   }
 
+  async function getFriends(user) {
+    try {
+      const query = { user: user };
+      const friends = await friendsCollection.find(query).toArray();
+      if (friends.length === 0) {
+        return [];
+      } else {
+        return friends;
+      }
+    } catch (error) {
+      console.error('Error fetching documents:', error);
+    }
+  }
+
   async function createUser(userName, password) {
     // Hash the password before we insert it into the database
     const passwordHash = await bcrypt.hash(password, 10);
@@ -118,5 +132,6 @@ async function createUser(userName, password) {
     updateFavorites,
     addEntry,
     getEntries,
+    getFriends,
     createUser
   };
