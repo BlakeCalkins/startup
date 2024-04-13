@@ -170,12 +170,65 @@ async function removeFriend(friend) {
     }
 }
 
+function renderRequest(user) {
+    let newRequest = document.createElement('div');
+    if (document.getElementById("favorites")) {
+        newRequest.innerHTML = user + " sent you a friend request.<br>";
+    } else {
+        newRequest.innerHTML = user + "<br>";
+    }
+    newRequest.className = 'box';
+    let boxId = user + 'Request';
+    newRequest.id = boxId;
+
+    let newAcceptButton = document.createElement('button');
+    newAcceptButton.type = 'button';
+    newAcceptButton.textContent = "Accept";
+    newAcceptButton.className = "btn btn-outline-success";
+    newAcceptButton.onclick = function() {
+        acceptRequest(boxId, user);
+    }
+
+    let newDismissButton = document.createElement('button');
+    newDismissButton.type = 'button';
+    newDismissButton.textContent = "Dismiss";
+    newDismissButton.className = "btn btn-outline-secondary";
+    newDismissButton.onclick = function() {
+        dismissRequest(boxId);
+    }
+
+    let newDeclineButton = document.createElement('button');
+    newDeclineButton.type = 'button';
+    newDeclineButton.textContent = "Decline";
+    newDeclineButton.className = "btn btn-outline-danger";
+    newDeclineButton.onclick = function() {
+        declineRequest(boxId, user);
+    }
+    let requestList = document.getElementById("requests");
+    requestList.appendChild(newRequest);
+    newRequest.appendChild(newAcceptButton);
+    if (document.getElementById("favorites")) {
+        newRequest.appendChild(newDismissButton);
+    } else {
+        newRequest.appendChild(newDeclineButton);
+    }
+
+}
+
+async function denyRequest (user) {
+
+}
+
 function acceptRequest(boxId, friend) {
     dismissRequest(boxId);
     addFriend(friend)
 }
 function dismissRequest(boxId) {
     document.getElementById(boxId).style.display = 'none';
+}
+async function declineRequest(boxId, user) {
+    await denyRequest(user);
+    dismissRequest(boxId);
 }
 
 renderExistingFriends();

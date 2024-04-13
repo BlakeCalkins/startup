@@ -10,6 +10,7 @@ const userCollection = db.collection('users');
 const entryCollection = db.collection('entries');
 const favoritesCollection = db.collection('favorites');
 const friendsCollection = db.collection("friends");
+const requestsCollection = db.collection("requests");
 
 
 // This will asynchronously test the connection and exit the process if it fails
