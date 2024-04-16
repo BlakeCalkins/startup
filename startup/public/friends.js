@@ -81,13 +81,26 @@ async function addFriend(friend) {
     }
 }
 
-function addFriendFromSearch() {
-    const friendName = document.querySelector("#friendSearch").value;
-    if (friendName.trim() === '') {
+async function sendRequest() {
+    const friend = document.querySelector("#friendSearch").value;
+    if (friend.trim() === '') {
         alert('Please enter a value before submitting.');
         return false;
       }
-    addFriend(friendName);
+    let friendSet = await retrieveSet();
+    if (friendSet) {
+        if (friendSet.has(friend)) {
+            alert("You are already friends with " + friend)
+            return;
+        } 
+    } 
+    let friendRequestsArray = retrieveRequests(friend);
+    if (friendRequestsArray.includes(getPlayerName())) {
+        alert("You already sent a friend request to " + friend + "and they haven't responded yet.")
+        return;
+    } else {
+        sendOneRequest(friend, getPlayerName());
+    }
 }
 
 function viewHomepage(person) {
@@ -215,13 +228,66 @@ function renderRequest(user) {
 
 }
 
+async function retrieveRequests(user) {
+    try {
+        const response = await fetch(`/api/${user}/requests`);
+        console.log(response);
+        const storedArray = await response.json();
+
+
+        if (!response.ok) {
+            console.error('Error:', response.status, response.statusText);
+            throw new Error(`Failed to retrieve data. Status: ${response.status}`);
+        }
+
+        let retrievedArray = Array.isArray(storedArray) ? storedArray : [];
+        return retrievedArray;
+    } catch (error) {
+        console.error('Error:', error.message);
+        return false;
+    }
+}
+
+async function renderAllRequests() {
+    let requests = await retrieveRequests(getPlayerName());
+    if (requests) {
+        requests.forEach(element => {
+            renderRequest(element);
+        });
+    }
+}
+
+async function sendOneRequest(pFriend, user) {
+    try {
+        let requestObj = {
+            'pFriend': pFriend,
+            'user': user,
+        }
+        // Make the POST request to the server
+        const response = await fetch(`/oneRequest`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(requestObj),
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to store data. Status: ${response.status}`);
+        }
+        // Optionally, you can handle the response from the server
+        const responseData = await response.json();
+        console.log('Server response:', responseData);
+    } catch (error) {
+        console.error('Error:', error.message);
+    }
+}
+
 async function denyRequest (user) {
 
 }
 
 function acceptRequest(boxId, friend) {
     dismissRequest(boxId);
-    addFriend(friend)
+    addFriend(friend);
 }
 function dismissRequest(boxId) {
     document.getElementById(boxId).style.display = 'none';

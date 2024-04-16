@@ -97,6 +97,21 @@ async function createUser(userName, password) {
     }
   }
 
+  async function updateFriends(friendSet, user) {
+    try {
+      const query = { user: user };
+
+      const result = await friendsCollection.findOneAndReplace(
+        query, // Find documents with the specified user
+        friendSet, // Replace the found document with the new document
+        { returnOriginal: false, upsert: true } // Options: return the updated document, and insert if not found
+      );
+      return result;
+    } catch (error) {
+      console.error('Error adding document:', error);
+    } 
+  }
+
   async function getFriends(user) {
     try {
       const query = { user: user };
@@ -105,6 +120,30 @@ async function createUser(userName, password) {
         return [];
       } else {
         return friends;
+      }
+    } catch (error) {
+      console.error('Error fetching documents:', error);
+    }
+  }
+
+  async function getAllUsers() {
+    userCollection.find({}, function(err, result) {
+      if (err) {
+          console.log("Error:", err);
+      } else {
+          return result;
+      }
+    })
+  }
+
+  async function getRequests(user) {
+    try {
+      const query = { user: user };
+      const requests = await requestsCollection.find(query).toArray();
+      if (requests.length === 0) {
+        return [];
+      } else {
+        return requests;
       }
     } catch (error) {
       console.error('Error fetching documents:', error);
@@ -133,6 +172,9 @@ async function createUser(userName, password) {
     updateFavorites,
     addEntry,
     getEntries,
+    updateFriends,
     getFriends,
+    getAllUsers,
+    getRequests,
     createUser
   };

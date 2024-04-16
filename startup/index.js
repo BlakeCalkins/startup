@@ -89,12 +89,12 @@ secureApiRouter.use(async (req, res, next) => {
 // login.js endpoints
 
 // friends.js endpoints
-app.post('/:username/friends', (req, res) => {
+app.post('/:username/friends', async (req, res) => {
   try {
     friendSet = req.body;
+    user = req.params.username;
     console.log('Received friendSet:', friendSet);
-
-    // Save friendSet to a database
+    await DB.updateFriends(friendSet, user);
 
     res.json({ success: true, data: friendSet }); // Respond with a JSON success message
   } catch (error) {
@@ -107,6 +107,20 @@ app.post('/:username/friends', (req, res) => {
 apiRouter.get('/:username/friendSet', async (req, res) => {
   let friendsArray = await DB.getFriends(req.params.username);
   res.json(friendsArray);
+});
+
+apiRouter.get('/allusers', async (_req, res) => {
+  let usersArray = await DB.getAllUsers();
+  res.json(usersArray);
+});
+
+apiRouter.get('/:username/requests', async (req, res) => {
+  let requestsArray = await DB.getRequests(req.params.username);
+  res.json(requestsArray);
+});
+
+app.post('/oneRequest', async (req, res) => {
+
 });
 
 // homepage.js endpoints
