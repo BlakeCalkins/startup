@@ -2,10 +2,10 @@ function getPlayerName() {
     return localStorage.getItem('userName') ?? 'User';
 }
 
-async function retrieveSet() {
+async function retrieveSet(user = getPlayerName()) {
     // let storedArray = [];
     try {
-        const response = await fetch(`/api/${getPlayerName()}/friendSet`);
+        const response = await fetch(`/api/${user}/friendSet`);
         console.log(response);
         const storedArray = await response.json();
 
@@ -53,29 +53,21 @@ async function storeSet(friendSet) {
 }
 
 
-function storeFriend(friendSet, friend) {
-    storeSet(friendSet);
-    num = localStorage.getItem("friendNumber") ?? 0;
-    num++;
-    // currFriend = 'friend' + num;
-    // localStorage.setItem(currFriend, friend);
-    localStorage.setItem("friendNumber", num);
-}
 
 async function addFriend(friend) {
-    let friendSet = await retrieveSet();
-    if (friendSet) {
-        if (friendSet.has(friend)) {
-            alert("You are already friends with " + friend)
-            return;
-        } else {
-            friendSet.add(friend);
-            storeFriend(friendSet, friend);
-        }
-    } else {
-        let friendSet = new Set([friend]);
-        storeFriend(friendSet, friend);
+    let usersFriendSet = await retrieveSet();
+    let friendsFriendSet = await retrieveSet(friend);
+    if (!usersFriendSet) {
+        let usersFriendSet = new Set();
+    } 
+    if (!friendsFriendSet) {
+        let friendsFriendSet = new Set();
     }
+    usersFriendSet.add(friend);
+    storeSet(usersFriendSet);
+    friendsFriendSet.add(getPlayerName());
+    storeSet(friendsFriendSet);
+    deleteRequest(friend, getPlayerName());
     if (document.getElementById("friendSearch")) {
         renderFriend(friend);
     }
@@ -154,24 +146,13 @@ async function renderExistingFriends() {
 async function removeFriend(friend) {
     const userConfirmed = confirm("Remove " + friend + " as a friend?");
     if (userConfirmed) {
-        // Find friend in localStorage using the value instead of the key,
-        // then remove that friend
-        // for (let i = 0; i < localStorage.length; i++) {
-        //     const key = localStorage.key(i);
-        //     const itemValue = localStorage.getItem(key);
-
-        //     if (itemValue === friend) {
-        //         localStorage.removeItem(key);
-        //     }
-        // }
-        // Remove friend from the set of friends stored in localStorage
         let friendSet = await retrieveSet();
         friendSet.delete(friend);
         storeSet(friendSet);
-        // Decrement the friend count in localStorage
-        num = localStorage.getItem("friendNumber");
-        num--;
-        localStorage.setItem("friendNumber", num);
+        let friendsFriendSet = await retrieveSet(friend);
+        friendsFriendSet.delete(getPlayerName());
+        storeSet(friendsFriendSet);
+        
 
         // Remove the HTML elements
         const liFriendDelete = document.getElementById("li" + friend);
@@ -257,11 +238,11 @@ async function renderAllRequests() {
     }
 }
 
-async function sendOneRequest(pFriend, user) {
+async function sendOneRequest(user, requester) {
     try {
         let requestObj = {
-            'pFriend': pFriend,
             'user': user,
+            'requester': requester,
         }
         // Make the POST request to the server
         const response = await fetch(`/oneRequest`, {
@@ -281,8 +262,16 @@ async function sendOneRequest(pFriend, user) {
     }
 }
 
-async function denyRequest (user) {
-
+async function deleteRequest (user, requester) {
+    let requestObj = {
+        'user': user,
+        'requester': requester,
+    }
+    fetch('/deleteRequest', {
+        method: 'delete',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(requestObj),
+    })
 }
 
 function acceptRequest(boxId, friend) {
@@ -293,8 +282,11 @@ function dismissRequest(boxId) {
     document.getElementById(boxId).style.display = 'none';
 }
 async function declineRequest(boxId, user) {
-    await denyRequest(user);
+    await deleteRequest(user);
     dismissRequest(boxId);
 }
 
 renderExistingFriends();
+
+//update addFriend to retrieve both sets from the user and the p friend and add the respective friend to both
+// then remove the request. May need to update accept, dismiss, and decline request funcs to hold more params. 

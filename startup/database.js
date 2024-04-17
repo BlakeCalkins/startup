@@ -150,6 +150,30 @@ async function createUser(userName, password) {
     }
   }
 
+  async function addRequest(requestObj) {
+      requestsCollection.insertOne(requestObj, function(err, result) {
+        if (err) {
+            console.log("Error:", err);
+        } else {
+            console.log("Request added successfully:", result);
+        }
+    })
+  }
+
+  async function deleteRequest(user, requester) {
+    const query = { 
+      user: user,
+      requester: requester
+     };
+    requestsCollection.deleteOne(query, function(err, result) {
+      if (err) {
+        console.log("Error:", err);
+      } else {
+          console.log("Document removed successfully:", result);
+      }
+    })
+  }
+
   async function createUser(userName, password) {
     // Hash the password before we insert it into the database
     const passwordHash = await bcrypt.hash(password, 10);
@@ -176,5 +200,7 @@ async function createUser(userName, password) {
     getFriends,
     getAllUsers,
     getRequests,
-    createUser
+    addRequest,
+    deleteRequest,
+    createUser,
   };

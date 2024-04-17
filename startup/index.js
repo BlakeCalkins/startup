@@ -120,7 +120,16 @@ apiRouter.get('/:username/requests', async (req, res) => {
 });
 
 app.post('/oneRequest', async (req, res) => {
+  let requestObj = req.body;
+  await DB.addRequest(requestObj);
+  res.json({ success: true, data: requestObj }); // Respond with a JSON success message
 
+});
+
+apiRouter.delete('/deleteRequest', async (req, res) => {
+  let requestObj = req.body;
+  await deleteRequest(requestObj.user, requestObj.requester);
+  res.status(204).end();
 });
 
 // homepage.js endpoints
