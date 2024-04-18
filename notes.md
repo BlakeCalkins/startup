@@ -67,3 +67,9 @@ div.header if class="header"
 chmod +x deploy.sh makes script executable
 use CNAME to point to another DNS record, SOA is start of authority, A maps domain names to IP addresses
 
+Port 80 Http
+443 Https
+22 SSH
+
+
+
