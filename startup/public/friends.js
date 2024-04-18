@@ -80,6 +80,9 @@ async function sendRequest() {
         alert('Please enter a value before submitting.');
         return false;
       }
+    if (friend == getPlayerName()) {
+        alert("You can't add yourself as a friend.");
+    }
     let friendSet = await retrieveSet();
     if (friendSet) {
         if (friendSet.has(friend)) {
@@ -97,7 +100,9 @@ async function sendRequest() {
         alert("You already sent a friend request to " + friend + "and they haven't responded yet.")
         return;
     } else {
+        alert("Request sent!");
         sendOneRequest(friend, getPlayerName());
+        return;
     }
 }
 

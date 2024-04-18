@@ -130,7 +130,7 @@ app.post('/oneRequest', async (req, res) => {
 app.delete('/deleteRequest', async (req, res) => {
   console.log('entered delete endpoint');
   let requestObj = req.body;
-  await DB.deleteRequest(requestObj.user, requestObj.requester);
+  await DB.deleteRequest(requestObj.requester, requestObj.user);
   res.status(204).end();
 });
 
