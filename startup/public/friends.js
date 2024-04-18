@@ -8,6 +8,7 @@ async function retrieveSet(user = getPlayerName()) {
         const response = await fetch(`/api/${user}/friendSet`);
         console.log(response);
         const storedArray = await response.json();
+        console.log(storedArray);
 
 
         if (!response.ok) {
@@ -25,12 +26,12 @@ async function retrieveSet(user = getPlayerName()) {
 
 }
 
-async function storeSet(friendSet) {
+async function storeSet(friendSet, user) {
     try {
         const friendArray = Array.from(friendSet);
 
         // Make the POST request to the server
-        const response = await fetch(`/${getPlayerName()}/friends`, {
+        const response = await fetch(`/${user}/friends`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(friendArray),
@@ -64,9 +65,9 @@ async function addFriend(friend) {
         let friendsFriendSet = new Set();
     }
     usersFriendSet.add(friend);
-    storeSet(usersFriendSet);
+    storeSet(usersFriendSet, getPlayerName());
     friendsFriendSet.add(getPlayerName());
-    storeSet(friendsFriendSet);
+    storeSet(friendsFriendSet, friend);
     deleteRequest(friend, getPlayerName());
     if (document.getElementById("friendSearch")) {
         renderFriend(friend);
@@ -86,7 +87,12 @@ async function sendRequest() {
             return;
         } 
     } 
-    let friendRequestsArray = retrieveRequests(friend);
+    let userBase = await retrieveAllUsers();
+    if (!userBase.includes(friend)) {
+        alert("There is no user named " + friend);
+        return;
+    }
+    let friendRequestsArray = await retrieveRequests(friend);
     if (friendRequestsArray.includes(getPlayerName())) {
         alert("You already sent a friend request to " + friend + "and they haven't responded yet.")
         return;
@@ -164,6 +170,29 @@ async function removeFriend(friend) {
     }
 }
 
+async function retrieveAllUsers() {
+    console.log("entered retrieveAllUsers");
+    try {
+        const response = await fetch('/allUsers');
+        const storedArray = await response.json();
+        console.log(storedArray);
+
+
+
+        if (!response.ok) {
+            console.error('Error:', response.status, response.statusText);
+            throw new Error(`Failed to retrieve data. Status: ${response.status}`);
+        }
+
+        let retrievedArray = Array.isArray(storedArray) ? storedArray : [];
+        console.log(retrievedArray);
+        return retrievedArray;
+    } catch (error) {
+        console.error('Error:', error.message);
+        return false;
+    }
+
+}
 function renderRequest(user) {
     let newRequest = document.createElement('div');
     if (document.getElementById("favorites")) {
@@ -214,6 +243,7 @@ async function retrieveRequests(user) {
         const response = await fetch(`/api/${user}/requests`);
         console.log(response);
         const storedArray = await response.json();
+        console.log(storedArray);
 
 
         if (!response.ok) {
@@ -282,11 +312,11 @@ function dismissRequest(boxId) {
     document.getElementById(boxId).style.display = 'none';
 }
 async function declineRequest(boxId, user) {
-    await deleteRequest(user);
+    await deleteRequest(getPlayerName(), user);
     dismissRequest(boxId);
 }
 
 renderExistingFriends();
+renderAllRequests();
 
-//update addFriend to retrieve both sets from the user and the p friend and add the respective friend to both
-// then remove the request. May need to update accept, dismiss, and decline request funcs to hold more params. 
+// inspect deleteRequest and make sure you are passing in the right user and requester

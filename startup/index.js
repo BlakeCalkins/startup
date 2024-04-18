@@ -109,8 +109,9 @@ apiRouter.get('/:username/friendSet', async (req, res) => {
   res.json(friendsArray);
 });
 
-apiRouter.get('/allusers', async (_req, res) => {
+app.get('/allUsers', async (_req, res) => {
   let usersArray = await DB.getAllUsers();
+  console.log(usersArray);
   res.json(usersArray);
 });
 
@@ -126,9 +127,10 @@ app.post('/oneRequest', async (req, res) => {
 
 });
 
-apiRouter.delete('/deleteRequest', async (req, res) => {
+app.delete('/deleteRequest', async (req, res) => {
+  console.log('entered delete endpoint');
   let requestObj = req.body;
-  await deleteRequest(requestObj.user, requestObj.requester);
+  await DB.deleteRequest(requestObj.user, requestObj.requester);
   res.status(204).end();
 });
 

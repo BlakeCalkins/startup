@@ -100,10 +100,13 @@ async function createUser(userName, password) {
   async function updateFriends(friendSet, user) {
     try {
       const query = { user: user };
-
+      let friendObj = {
+        user: user,
+        friends: friendSet
+      }
       const result = await friendsCollection.findOneAndReplace(
         query, // Find documents with the specified user
-        friendSet, // Replace the found document with the new document
+        friendObj, // Replace the found document with the new document
         { returnOriginal: false, upsert: true } // Options: return the updated document, and insert if not found
       );
       return result;
@@ -112,43 +115,87 @@ async function createUser(userName, password) {
     } 
   }
 
+  // async function getFriends(user) {
+  //   try {
+  //     console.log(user);
+  //     const query = { user: user };
+  //     const friendObj = await friendsCollection.find(query);
+  //     let friendsArray = friendObj.friends;
+  //     console.log(friendsArray);
+  //     if (!friendsArray) {
+  //       return [];
+  //     } else {
+  //       return friendsArray;
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching documents:', error);
+  //   }
+  // }
   async function getFriends(user) {
     try {
-      const query = { user: user };
-      const friends = await friendsCollection.find(query).toArray();
-      if (friends.length === 0) {
-        return [];
-      } else {
-        return friends;
-      }
+        const query = { user: user };
+        const friendObj = await friendsCollection.findOne(query);
+
+        console.log('Friend document:', friendObj); // Log the document found by the query
+
+        if (!friendObj) {
+            return []; // No document found for the specified user
+        }
+
+        // Access the friends field from the document
+        const friendsArray = friendObj.friends;
+
+        if (!friendsArray) {
+            return []; // Friends array is empty or undefined
+        }
+
+        return friendsArray;
     } catch (error) {
-      console.error('Error fetching documents:', error);
+        console.error('Error fetching documents:', error);
+        return []; // Return an empty array or handle the error as needed
     }
-  }
+}
 
+  
+
+  // async function getAllUsers() {
+  //   userCollection.find({}, function(err, result) {
+  //     if (err) {
+  //         console.log("Error:", err);
+  //     } else {
+  //         return result;
+  //     }
+  //   })
+  // }
   async function getAllUsers() {
-    userCollection.find({}, function(err, result) {
-      if (err) {
-          console.log("Error:", err);
-      } else {
-          return result;
-      }
-    })
-  }
-
-  async function getRequests(user) {
     try {
+        const users = await userCollection.find({}, { projection: { userName: 1 } }).toArray();
+
+        const names = users.map(user => user.userName);
+        console.log(names);
+        return names;
+    } catch (error) {
+        console.error('Error fetchingS users:', error);
+    }
+}
+
+async function getRequests(user) {
+  try {
       const query = { user: user };
       const requests = await requestsCollection.find(query).toArray();
+
       if (requests.length === 0) {
-        return [];
+          return [];
       } else {
-        return requests;
+          // Extract the requester field from each document and put them into an array
+          const requesters = requests.map(request => request.requester);
+          return requesters;
       }
-    } catch (error) {
+  } catch (error) {
       console.error('Error fetching documents:', error);
-    }
+      return []; // Return an empty array or handle the error as needed
   }
+}
 
   async function addRequest(requestObj) {
       requestsCollection.insertOne(requestObj, function(err, result) {
@@ -160,19 +207,30 @@ async function createUser(userName, password) {
     })
   }
 
+  // async function deleteRequest(user, requester) {
+  //   const query = { 
+  //     user: user,
+  //     requester: requester
+  //    };
+  //   await requestsCollection.deleteOne(query, function(err, result) {
+  //     if (err) {
+  //       console.log("Error:", err);
+  //     } else {
+  //         console.log("Document removed successfully:", result);
+  //     }
+  //   })
+  // }
   async function deleteRequest(user, requester) {
-    const query = { 
-      user: user,
-      requester: requester
-     };
-    requestsCollection.deleteOne(query, function(err, result) {
-      if (err) {
-        console.log("Error:", err);
-      } else {
-          console.log("Document removed successfully:", result);
-      }
-    })
-  }
+    try {
+        const query = { user: user, requester: requester };
+        const result = await requestsCollection.deleteOne(query);
+        console.log("Document removed successfully:", result);
+    } catch (err) {
+        console.error("Error:", err);
+    }
+}
+
+
 
   async function createUser(userName, password) {
     // Hash the password before we insert it into the database
