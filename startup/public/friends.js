@@ -82,6 +82,7 @@ async function sendRequest() {
       }
     if (friend == getPlayerName()) {
         alert("You can't add yourself as a friend.");
+        return;
     }
     let friendSet = await retrieveSet();
     if (friendSet) {
@@ -108,7 +109,7 @@ async function sendRequest() {
 
 function viewHomepage(person) {
     localStorage.setItem("recentFriendViewer", person)
-    window.location.href = "placeholder.html";
+    window.location.href = "friendpage.html";
 }
 
 function renderFriend(friend) {
