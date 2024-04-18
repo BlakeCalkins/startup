@@ -67,9 +67,60 @@ div.header if class="header"
 chmod +x deploy.sh makes script executable
 use CNAME to point to another DNS record, SOA is start of authority, A maps domain names to IP addresses
 
+###Ports and HTTP
 Port 80 Http
 443 Https
 22 SSH
+
+####status codes
+1XX info
+2XX success
+3XX redirect, success but not what you asked for
+4XX client errors, request invalid
+5XX Server errors, can't be completed
+
+####Headers
+Authorization
+Accept
+Content-type
+Cookie
+Host
+Origin
+Access-Control-Allow-Origin
+Content-length
+Cache-control
+User-Agent
+
+Cookies allow A server to store data on the client
+
+###MongoDB
+
+can use and or in mongoDB queries, $lt and $gt is less than and greater than
+
+###Websocket
+
+in websocket, client triggers, then server, then the message
+Web socket upgrades HTTP to be peer to peer
+
+###JSX and web frameworks
+jsx purposes:
+To render HTML from JavaScript
+To componentize your HTML
+To allow for composability of your HTML
+
+`NPM install ws` does the following:
+Locks the version of the websocket package for your application
+Adds the websocket source code to the node_modules directory
+Adds a dependency to your package.json file
+
+fetch can be used in frontend and backend code
+
+Linux Daemons:
+Executes independent of a user
+Starts when the computer is rebooted
+PM2 is an example of a daemon
+fork other processes
+
 
 
 
